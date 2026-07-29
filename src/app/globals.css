@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --background: #f4ecdc;
+  --foreground: #3a3630;
+
+  /* Dentro Das Casinhas brand palette (extracted from brand materials) */
+  --color-casinha-slate: #8993a6;
+  --color-casinha-mustard: #e8c15f;
+  --color-casinha-sage: #a9c6b5;
+  --color-casinha-terracotta: #d9713c;
+  --color-casinha-cream: #f4ecdc;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-slate: var(--color-casinha-slate);
+  --color-mustard: var(--color-casinha-mustard);
+  --color-sage: var(--color-casinha-sage);
+  --color-terracotta: var(--color-casinha-terracotta);
+  --color-cream: var(--color-casinha-cream);
+  --font-sans: var(--font-nunito);
+  --font-heading: var(--font-baloo);
+  --font-hand: var(--font-caveat);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
