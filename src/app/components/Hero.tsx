@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Bunting from "./Bunting";
+import { GOOGLE_FORM_URL } from "../config";
 
 export default function Hero() {
   return (
@@ -37,7 +38,9 @@ export default function Hero() {
             empatia e acolhimento.
           </p>
           <a
-            href="#contato"
+            href={GOOGLE_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-terracotta text-white font-extrabold text-[17px] px-9 py-4 rounded-full shadow-[0_6px_0_rgba(61,58,52,0.15)] hover:bg-[#b8582a] transition-colors"
           >
             Agende uma visita

@@ -1,3 +1,5 @@
+import { GOOGLE_FORM_URL } from "../config";
+
 export default function Localizacao() {
   return (
     <section
@@ -58,7 +60,9 @@ export default function Localizacao() {
             </div>
           </div>
           <a
-            href="#contato"
+            href={GOOGLE_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-terracotta text-white font-extrabold text-base px-[30px] py-3.5 rounded-full shadow-[0_6px_0_rgba(61,58,52,0.15)] hover:bg-[#b8582a] transition-colors"
           >
             Agende uma visita

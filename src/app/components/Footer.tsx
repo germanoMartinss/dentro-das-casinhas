@@ -34,7 +34,9 @@ export default function Footer() {
           </p>
           <div className="flex gap-3">
             <a
-              href="#"
+              href="https://www.instagram.com/dentrodascasinhas"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-[44px] h-[44px] rounded-xl bg-cream/[0.12] flex items-center justify-center hover:bg-cream/20 transition-colors"
               aria-label="Instagram"
             >
@@ -53,25 +55,49 @@ export default function Footer() {
               </svg>
             </a>
             <a
-              href="#"
+              href="https://www.youtube.com/@Dentrodascasinhas"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-[44px] h-[44px] rounded-xl bg-cream/[0.12] flex items-center justify-center hover:bg-cream/20 transition-colors"
-              aria-label="Facebook"
+              aria-label="YouTube"
+            >
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
+                <rect
+                  x="2.5"
+                  y="5.5"
+                  width="19"
+                  height="13"
+                  rx="4"
+                  stroke="#F4ECDC"
+                  strokeWidth="2"
+                />
+                <path d="M10.5 9.5l5 2.5-5 2.5v-5z" fill="#F4ECDC" />
+              </svg>
+            </a>
+            <a
+              href="https://www.tiktok.com/@dentrodascasinhas"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-[44px] h-[44px] rounded-xl bg-cream/[0.12] flex items-center justify-center hover:bg-cream/20 transition-colors"
+              aria-label="TikTok"
             >
               <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
                 <path
-                  d="M15 8h3V4h-3c-2.2 0-4 1.8-4 4v3H8v4h3v7h4v-7h3l1-4h-4V8c0-.5.5-1 1-1z"
+                  d="M16.5 3c.4 2.2 1.8 3.6 4 3.9v2.9c-1.4.1-2.8-.3-4-1.1v6.2c0 3.4-2.7 5.6-5.7 5.6-3 0-5.5-2.3-5.5-5.5s2.5-5.5 5.5-5.5c.4 0 .7 0 1 .1v3c-.3-.1-.6-.2-1-.2-1.4 0-2.5 1.1-2.5 2.6 0 1.4 1.1 2.5 2.5 2.5 1.5 0 2.7-1.1 2.7-2.7V3h3z"
                   fill="#F4ECDC"
                 />
               </svg>
             </a>
             <a
-              href="#"
+              href="https://www.kwai.com/@dentrodascasinhas"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-[44px] h-[44px] rounded-xl bg-cream/[0.12] flex items-center justify-center hover:bg-cream/20 transition-colors"
-              aria-label="Twitter"
+              aria-label="Kwai"
             >
               <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
                 <path
-                  d="M21 5.5c-.7.3-1.5.5-2.3.6a4 4 0 0 0 1.7-2.2c-.8.5-1.6.8-2.6 1a4 4 0 0 0-6.8 3.6A11.3 11.3 0 0 1 3.2 4.4a4 4 0 0 0 1.2 5.3c-.6 0-1.2-.2-1.7-.5v.1a4 4 0 0 0 3.2 3.9c-.6.1-1.2.2-1.8.1a4 4 0 0 0 3.7 2.8A8 8 0 0 1 2 17.9a11.3 11.3 0 0 0 6.1 1.8c7.3 0 11.3-6 11.3-11.3v-.5c.8-.6 1.4-1.3 2-2.1a8 8 0 0 1-2.4.6z"
+                  d="M4 4h5l3 5 3-5h5l-6 8 6 8h-5l-3-5-3 5H4l6-8-6-8z"
                   fill="#F4ECDC"
                 />
               </svg>

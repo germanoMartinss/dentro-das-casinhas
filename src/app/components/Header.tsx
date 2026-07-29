@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { GOOGLE_FORM_URL } from "../config";
 
 const NAV_LINKS = [
   { href: "#sobre", label: "Sobre" },
@@ -36,7 +37,9 @@ export default function Header() {
           </a>
         ))}
         <a
-          href="#contato"
+          href={GOOGLE_FORM_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className="bg-terracotta text-white px-6 py-3 rounded-full font-extrabold text-base hover:bg-[#b8582a] transition-colors"
         >
           Agende uma visita
@@ -68,7 +71,9 @@ export default function Header() {
             </a>
           ))}
           <a
-            href="#contato"
+            href={GOOGLE_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={() => setOpen(false)}
             className="bg-terracotta text-white px-5 py-3 rounded-full font-extrabold text-[15px] text-center mt-2"
           >

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Bunting from "./Bunting";
 
 const CONVENIOS = [
-  { name: "Amil", logo: "/images/logos/amil-1.png", scale: 1.7 },
+  { name: "Amil", logo: "/images/logos/amil-2.png", scale: 1.6 },
   { name: "Bradesco Saúde", logo: "/images/logos/bradesco-saude-logo-1-1.png", scale: 1 },
   { name: "Porto Saúde", logo: "/images/logos/porto-saude-1.png", scale: 1.6 },
   { name: "Mediservice", logo: "/images/logos/mediservice.png", scale: 2.1 },
