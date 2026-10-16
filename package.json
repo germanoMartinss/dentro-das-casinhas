@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "logo:normalizar": "node scripts/normalizar-logo.mjs",
+    "seo:imagens": "node scripts/gerar-imagens-seo.mjs"
   },
   "dependencies": {
     "next": "16.3.8",
