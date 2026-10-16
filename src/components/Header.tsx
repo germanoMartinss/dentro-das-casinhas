@@ -49,7 +49,7 @@ export default function Header() {
         loading="eager"
       />
 
-      <nav aria-label="Menu principal" className="hidden md:flex items-center gap-7">
+      <nav aria-label="Menu principal" className="hidden xl:flex items-center gap-6">
         {NAV_LINKS.map((link) => (
           <a
             key={link.href}
@@ -66,7 +66,7 @@ export default function Header() {
         ref={toggleRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex md:hidden bg-transparent border-none cursor-pointer p-2"
+        className="flex xl:hidden bg-transparent border-none cursor-pointer p-2"
         aria-label={open ? "Fechar menu" : "Abrir menu"}
         aria-expanded={open}
         aria-controls={MOBILE_MENU_ID}
@@ -93,7 +93,7 @@ export default function Header() {
         id={MOBILE_MENU_ID}
         aria-label="Menu principal (celular)"
         hidden={!open}
-        className="absolute top-full left-0 right-0 md:hidden flex flex-col gap-1 bg-cream px-[5vw] pb-5 pt-3 border-b-2 border-ink/[0.08]"
+        className="absolute top-full left-0 right-0 xl:hidden flex flex-col gap-1 bg-cream px-[5vw] pb-5 pt-3 border-b-2 border-ink/[0.08]"
       >
         {NAV_LINKS.map((link) => (
           <a

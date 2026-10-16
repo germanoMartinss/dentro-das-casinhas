@@ -6,6 +6,10 @@ import Terapias from "@/components/Terapias";
 import Convenios from "@/components/Convenios";
 import Localizacao from "@/components/Localizacao";
 import Depoimentos from "@/components/Depoimentos";
+import ComoFunciona from "@/components/ComoFunciona";
+import Equipe from "@/components/Equipe";
+import Faq from "@/components/Faq";
+import CtaFinal from "@/components/CtaFinal";
 import Footer from "@/components/Footer";
 import { clinicJsonLd, serializeJsonLd } from "@/lib/json-ld";
 
@@ -32,9 +36,13 @@ export default function Home() {
         <Sobre />
         <Galeria />
         <Terapias />
+        <ComoFunciona />
         <Convenios />
-        <Localizacao />
+        <Equipe />
         <Depoimentos />
+        <Faq />
+        <Localizacao />
+        <CtaFinal />
       </main>
       <Footer />
     </>

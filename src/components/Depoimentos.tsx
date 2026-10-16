@@ -1,27 +1,16 @@
-const TESTIMONIALS = [
-  {
-    quote:
-      "Vimos nosso filho ganhar mais autonomia em poucos meses. A equipe trata cada criança com muito carinho e profissionalismo.",
-    name: "Nome do responsável",
-    role: "Mãe de paciente",
-  },
-  {
-    quote:
-      "Sentimos acolhimento desde a primeira visita. Hoje conseguimos acompanhar cada evolução de perto.",
-    name: "Nome do responsável",
-    role: "Pai de paciente",
-  },
-  {
-    quote:
-      "A comunicação com a equipe é muito clara. Recomendamos a Casinha para outras famílias.",
-    name: "Nome do responsável",
-    role: "Mãe de paciente",
-  },
-];
+import { TESTIMONIALS } from "@/data/depoimentos";
 
+/** Depoimentos reais. Não renderiza nada enquanto src/data/depoimentos.ts estiver vazio. */
 export default function Depoimentos() {
+  if (!TESTIMONIALS.length) return null;
+
   return (
-    <section id="depoimentos" aria-labelledby="depoimentos-titulo" className="text-center bg-cream px-[6vw] py-21">
+    <section
+      id="depoimentos"
+      aria-labelledby="depoimentos-titulo"
+      data-reveal
+      className="text-center bg-cream px-[6vw] py-21"
+    >
       <p className="font-hand text-[32px] text-terracotta-deep font-bold mb-1">
         quem já passou pela porta
       </p>
@@ -32,30 +21,27 @@ export default function Depoimentos() {
         Depoimentos
       </h2>
 
-      <div className="grid gap-6 max-w-[1080px] mx-auto grid-cols-[repeat(auto-fit,minmax(260px,1fr))]">
-        {TESTIMONIALS.map((t, i) => (
-          <div
-            key={i}
-            className="bg-white rounded-3xl px-6 py-7 text-left shadow-card"
-          >
-            <svg width="32" height="25" viewBox="0 0 28 22" fill="none" className="mb-3" aria-hidden="true">
-              <path
-                d="M0 22V13.5C0 6 4.5 1 11 0l1.5 3.5C8 5 5.5 7.5 5.5 11h6.5v11H0zm15 0V13.5C15 6 19.5 1 26 0l1.5 3.5C23 5 20.5 7.5 20.5 11H27v11H15z"
-                className="fill-mustard"
-              />
-            </svg>
-            <p className="text-[15.5px] leading-relaxed text-ink-soft mb-[18px]">
-              &ldquo;{t.quote}&rdquo;
-            </p>
-            <p className="font-extrabold text-sm text-ink">{t.name}</p>
-            <p className="text-[13px] text-ink-subtle mt-0.5">{t.role}</p>
-          </div>
+      <ul className="grid gap-6 max-w-[1080px] mx-auto grid-cols-[repeat(auto-fit,minmax(260px,1fr))]">
+        {TESTIMONIALS.map((t) => (
+          <li key={t.quote} className="bg-white rounded-3xl px-6 py-7 text-left shadow-card">
+            <figure>
+              <svg width="32" height="25" viewBox="0 0 28 22" fill="none" className="mb-3" aria-hidden="true">
+                <path
+                  d="M0 22V13.5C0 6 4.5 1 11 0l1.5 3.5C8 5 5.5 7.5 5.5 11h6.5v11H0zm15 0V13.5C15 6 19.5 1 26 0l1.5 3.5C23 5 20.5 7.5 20.5 11H27v11H15z"
+                  className="fill-mustard"
+                />
+              </svg>
+              <blockquote className="text-[15.5px] leading-relaxed text-ink-soft mb-[18px]">
+                &ldquo;{t.quote}&rdquo;
+              </blockquote>
+              <figcaption>
+                <span className="block font-extrabold text-sm text-ink">{t.author}</span>
+                {t.relation && <span className="block text-[13px] text-ink-subtle mt-0.5">{t.relation}</span>}
+              </figcaption>
+            </figure>
+          </li>
         ))}
-      </div>
-      <p className="mt-7 text-[12.5px] text-ink-subtle italic">
-        Depoimentos ilustrativos — substituir por relatos reais de famílias
-        atendidas.
-      </p>
+      </ul>
     </section>
   );
 }

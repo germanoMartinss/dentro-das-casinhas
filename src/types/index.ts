@@ -41,3 +41,36 @@ export type SocialLink = {
   label: string;
   href: string;
 };
+
+export type StepIcon = "chat" | "welcome" | "plan" | "family";
+
+export type Step = {
+  icon: StepIcon;
+  color: BrandColor;
+  title: string;
+  description: string;
+};
+
+export type FaqItem = {
+  question: string;
+  /** null = resposta ainda não fornecida pela clínica; o item não aparece no site. */
+  answer: string | null;
+  /** O que falta confirmar com a clínica (não aparece no site). */
+  todo?: string;
+};
+
+export type TeamMember = {
+  name: string;
+  specialty: string;
+  /** Registro profissional, ex.: "CRP 06/123456". */
+  registration: string;
+  /** Caminho a partir de /public (foto quadrada, de preferência 600x600). */
+  photo: string;
+};
+
+export type Testimonial = {
+  quote: string;
+  /** Como a família autorizou ser identificada, ex.: "Ana, mãe do Pedro". */
+  author: string;
+  relation?: string;
+};
