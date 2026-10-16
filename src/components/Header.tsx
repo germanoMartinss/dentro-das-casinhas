@@ -12,6 +12,15 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Ao rolar, o cabeçalho encolhe e ganha sombra.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Com o menu aberto: Esc fecha e devolve o foco ao botão; clique fora fecha.
   useEffect(() => {
@@ -35,21 +44,29 @@ export default function Header() {
     };
   }, [open]);
 
+  // O encolhimento é só visual (transform): o contêiner sticky mantém a
+  // altura de 114px, então o conteúdo da página não se desloca (CLS 0).
+  const shift = scrolled ? "translate-y-[13px]" : "";
+
   return (
+    <div className="sticky top-0 z-50 h-[114px] pointer-events-none">
     <header
       ref={headerRef}
-      className="sticky top-0 z-50 bg-cream border-b-2 border-ink/[0.08] flex items-center justify-between px-[5vw] py-3"
+      className={`pointer-events-auto relative bg-cream border-b-2 border-ink/[0.08] flex items-center justify-between px-[5vw] py-3 transition-[translate,box-shadow] duration-300 motion-reduce:transition-none ${scrolled ? "-translate-y-[26px] shadow-[0_6px_20px_rgba(61,58,52,0.12)]" : ""}`}
     >
       <Image
         src="/images/logo-ink.png"
         alt="Dentro Das Casinhas"
         width={logoWidthFor(88)}
         height={88}
-        className="h-[88px] w-auto"
+        className={`h-[88px] w-auto origin-left transition-[translate,scale] duration-300 motion-reduce:transition-none ${scrolled ? "translate-y-[13px] scale-[0.8]" : ""}`}
         loading="eager"
       />
 
-      <nav aria-label="Menu principal" className="hidden xl:flex items-center gap-6">
+      <nav
+        aria-label="Menu principal"
+        className={`hidden xl:flex items-center gap-6 transition-[translate] duration-300 motion-reduce:transition-none ${shift}`}
+      >
         {NAV_LINKS.map((link) => (
           <a
             key={link.href}
@@ -66,7 +83,7 @@ export default function Header() {
         ref={toggleRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex xl:hidden bg-transparent border-none cursor-pointer p-2"
+        className={`flex xl:hidden bg-transparent border-none cursor-pointer p-2 transition-[translate] duration-300 motion-reduce:transition-none ${shift}`}
         aria-label={open ? "Fechar menu" : "Abrir menu"}
         aria-expanded={open}
         aria-controls={MOBILE_MENU_ID}
@@ -108,5 +125,6 @@ export default function Header() {
         <CtaLink onClick={() => setOpen(false)} className="px-5 py-3 text-[15px] text-center mt-2" />
       </nav>
     </header>
+    </div>
   );
 }

@@ -6,6 +6,7 @@ export default function Localizacao() {
     <section
       id="localizacao"
       aria-labelledby="localizacao-titulo"
+      data-reveal
       className="text-center bg-slate-deep px-[6vw] py-21 focus-ring-light"
     >
       <p className="font-hand text-[34px] text-mustard font-bold mb-1">

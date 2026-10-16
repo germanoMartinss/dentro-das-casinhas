@@ -73,7 +73,7 @@ const ICON_STYLE: Record<BrandColor, string> = {
 
 export default function Terapias() {
   return (
-    <section id="terapias" aria-labelledby="terapias-titulo" className="text-center bg-sand-deep px-[6vw] py-21">
+    <section id="terapias" aria-labelledby="terapias-titulo" data-reveal className="text-center bg-sand-deep px-[6vw] py-21">
       <p className="font-hand text-[32px] text-terracotta-deep font-bold mb-1">
         como cuidamos
       </p>
@@ -88,7 +88,7 @@ export default function Terapias() {
         {THERAPIES.map((therapy) => (
           <div
             key={therapy.title}
-            className="bg-white rounded-3xl p-8 px-6 text-left shadow-card"
+            className="bg-white rounded-3xl p-8 px-6 text-left shadow-card transition-[translate,box-shadow] duration-300 motion-reduce:transition-none hover:-translate-y-1.5 hover:shadow-card-lifted focus-within:-translate-y-1.5 focus-within:shadow-card-lifted"
           >
             <div
               className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-[18px] ${ICON_STYLE[therapy.color]}`}

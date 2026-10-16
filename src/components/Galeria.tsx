@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import GaleriaLightbox from "@/components/GaleriaLightbox";
 import { GALLERY_PHOTOS } from "@/data/fotos";
@@ -51,8 +52,10 @@ export default function Galeria() {
             key={photo.src}
             type="button"
             data-photo-index={i}
+            data-reveal="drop"
+            style={{ "--reveal-i": i % 6 } as CSSProperties}
             aria-label={`Ampliar foto: ${photo.alt}`}
-            className={`relative bg-white p-3 pb-7 w-[42vw] sm:w-[190px] shadow-polaroid transition-transform duration-300 motion-reduce:transition-none hover:rotate-0 hover:scale-110 hover:z-10 focus-visible:rotate-0 focus-visible:scale-110 focus-visible:z-10 cursor-pointer ${ROTATIONS[i % ROTATIONS.length]}`}
+            className={`relative bg-white p-3 pb-7 w-[42vw] sm:w-[190px] shadow-polaroid transition-[translate,scale,rotate,box-shadow] duration-300 motion-reduce:transition-none hover:rotate-0 hover:-translate-y-2 hover:scale-105 hover:z-10 hover:shadow-polaroid-lifted focus-visible:rotate-0 focus-visible:-translate-y-2 focus-visible:scale-105 focus-visible:z-10 focus-visible:shadow-polaroid-lifted cursor-pointer ${ROTATIONS[i % ROTATIONS.length]}`}
           >
             <span
               aria-hidden="true"

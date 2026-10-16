@@ -3,6 +3,7 @@ export default function Sobre() {
     <section
       id="sobre"
       aria-labelledby="sobre-titulo"
+      data-reveal
       className="relative text-center overflow-hidden px-[6vw] py-21 bg-sand"
     >
       {/* Um único título em duas linhas: tinta e dourado escuro (AA) */}

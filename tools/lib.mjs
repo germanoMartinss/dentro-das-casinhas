@@ -57,6 +57,11 @@ export async function loadWholePage(page) {
     await page.waitForTimeout(60);
   }
   await page.evaluate(() => window.scrollTo(0, 0));
+  // imagens fora da tela na horizontal (ex.: cópia da faixa de convênios) não
+  // carregam sozinhas com a página no topo: força o carregamento de todas
+  await page.evaluate(() =>
+    document.querySelectorAll("img[loading=lazy]").forEach((img) => (img.loading = "eager")),
+  );
   await page.waitForFunction(
     () => [...document.images].every((img) => img.complete && img.naturalWidth > 0),
     null,

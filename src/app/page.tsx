@@ -10,6 +10,7 @@ import ComoFunciona from "@/components/ComoFunciona";
 import Equipe from "@/components/Equipe";
 import Faq from "@/components/Faq";
 import CtaFinal from "@/components/CtaFinal";
+import RevealOnScroll from "@/components/RevealOnScroll";
 import Footer from "@/components/Footer";
 import { clinicJsonLd, serializeJsonLd } from "@/lib/json-ld";
 
@@ -45,6 +46,7 @@ export default function Home() {
         <CtaFinal />
       </main>
       <Footer />
+      <RevealOnScroll />
     </>
   );
 }

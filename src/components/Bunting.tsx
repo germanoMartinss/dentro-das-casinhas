@@ -20,22 +20,18 @@ const RADIUS = FLAG_WIDTH / 2;
 const FLAG_PATH = `M0 0H${FLAG_WIDTH}V${FLAG_HEIGHT - RADIUS}A${RADIUS} ${RADIUS} 0 0 1 0 ${FLAG_HEIGHT - RADIUS}Z`;
 
 /**
- * Faixa decorativa de bandeirinhas, desenhada como um padrão SVG repetido
- * (antes eram 100 divs por faixa).
+ * Faixa decorativa de bandeirinhas (toldo), desenhada como um padrão SVG
+ * repetido. O padrão começa no centro da faixa (x="50%") com a 3ª cor.
  *
- * O padrão começa no centro da faixa (x="50%") com a 3ª cor (sage), que é a
- * mesma fase da fileira original de 100 bandeirinhas centralizada na tela.
+ * Cada bandeirinha balança uma vez ao carregar (.bunting-flag, só com
+ * transform e só sem "reduzir movimento"); o atraso escalonado faz a onda.
  */
 export default function Bunting() {
   const patternId = useId();
   const order = [...FLAG_COLORS.slice(2), ...FLAG_COLORS.slice(0, 2)];
 
   return (
-    <svg
-      aria-hidden="true"
-      className="block w-full"
-      height={FLAG_HEIGHT}
-    >
+    <svg aria-hidden="true" className="block w-full" height={FLAG_HEIGHT}>
       <defs>
         <pattern
           id={patternId}
@@ -45,12 +41,13 @@ export default function Bunting() {
           patternUnits="userSpaceOnUse"
         >
           {order.map((color, i) => (
-            <path
-              key={color}
-              d={FLAG_PATH}
-              transform={`translate(${i * SLOT + FLAG_GAP} 0)`}
-              className={FILL[color]}
-            />
+            <g key={color} transform={`translate(${i * SLOT + FLAG_GAP} 0)`}>
+              <path
+                d={FLAG_PATH}
+                className={`bunting-flag ${FILL[color]}`}
+                style={{ animationDelay: `${i * 120}ms` }}
+              />
+            </g>
           ))}
         </pattern>
       </defs>
