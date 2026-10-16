@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Baloo_2, Nunito, Caveat } from "next/font/google";
-import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "@/app/globals.css";
 
 const baloo2 = Baloo_2({
@@ -21,9 +21,29 @@ const caveat = Caveat({
   weight: ["600", "700"],
 });
 
+const TITLE = `${SITE_NAME} | Clínica multidisciplinar infantil`;
+
+// As imagens de Open Graph/Twitter e os ícones vêm dos arquivos em src/app
+// (opengraph-image.jpg, twitter-image.jpg, icon.png, apple-icon.png,
+// favicon.ico), gerados por scripts/gerar-imagens-seo.mjs.
 export const metadata: Metadata = {
-  title: `${SITE_NAME} | Clínica multidisciplinar infantil`,
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
   description: SITE_DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: "/",
+    siteName: SITE_NAME,
+    title: TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({

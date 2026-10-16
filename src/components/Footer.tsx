@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { ADDRESS_LINES, PHONE, SOCIAL_LINKS, logoWidthFor } from "@/lib/site";
+import { ADDRESS_LINES, PHONE, SITE_NAME, SOCIAL_LINKS, logoWidthFor } from "@/lib/site";
 import type { SocialNetwork } from "@/types";
 
 const SOCIAL_ICONS: Record<SocialNetwork, ReactNode> = {
@@ -84,7 +84,7 @@ export default function Footer() {
       </div>
       <div className="border-t border-cream/[0.15] max-w-[1080px] mx-auto pt-5 text-center">
         <p className="text-[13px] text-slate-soft">
-          © 2026 Dentro Das Casinhas. Todos os direitos reservados.
+          © {new Date().getFullYear()} {SITE_NAME}. Todos os direitos reservados.
         </p>
       </div>
     </footer>
