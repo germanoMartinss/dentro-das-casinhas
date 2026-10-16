@@ -8,7 +8,12 @@
     "start": "next start",
     "lint": "eslint",
     "logo:normalizar": "node scripts/normalizar-logo.mjs",
-    "seo:imagens": "node scripts/gerar-imagens-seo.mjs"
+    "seo:imagens": "node scripts/gerar-imagens-seo.mjs",
+    "test:visual": "node tools/visual.mjs",
+    "test:visual:referencia": "node tools/visual.mjs --atualizar",
+    "test:a11y": "node tools/a11y.mjs --ignorar color-contrast",
+    "test:perf": "node tools/perf.mjs",
+    "test:larguras": "node tools/larguras.mjs"
   },
   "dependencies": {
     "next": "16.3.8",
@@ -20,8 +25,14 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "axe-core": "4.10.3",
+    "chrome-launcher": "1.2.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.8",
+    "lighthouse": "12.8.2",
+    "pixelmatch": "5.3.0",
+    "playwright": "1.56.1",
+    "pngjs": "7.0.0",
     "sharp": "0.35.5",
     "tailwindcss": "^4",
     "typescript": "^5"

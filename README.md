@@ -37,6 +37,31 @@ Variável de ambiente opcional:
 
 Ao ligar um domínio próprio, defina `NEXT_PUBLIC_SITE_URL` na Vercel e faça um novo deploy.
 
+## Testes (pasta `tools/`)
+
+Os testes rodam contra o site no ar. Use o build de produção:
+
+```bash
+npm run build && npm start      # em outro terminal
+```
+
+| Comando | O que faz |
+|---|---|
+| `npm run test:visual:referencia` | Captura a página (390px e 1440px, modo claro e escuro) e salva como referência. Rode **antes** de mudar algo |
+| `npm run test:visual` | Captura de novo e compara pixel a pixel com a referência; também compara o HTML. Mostra as faixas da página que mudaram e falha se houver diferença |
+| `npm run test:a11y` | axe-core + testes de teclado (skip link, lightbox, menu mobile) e de movimento reduzido. Ignora `color-contrast` até a fase 2 |
+| `npm run test:perf` | Lighthouse mobile em 4G lento (mediana de 5 execuções) e peso total transferido rolando a página |
+| `npm run test:larguras` | Varre de 320px a 1440px procurando rolagem horizontal e aponta o elemento culpado |
+
+Opções úteis:
+
+- `BASE_URL=http://localhost:3300 npm run test:a11y`: testa outra URL. O padrão é `http://localhost:3000`.
+- `npm run test:visual -- --tolerancia 0.1`: aceita até 0,1% de pixels diferentes.
+- `npm run test:perf -- --execucoes 3`: muda o número de execuções do Lighthouse.
+- `npm run test:larguras -- --de 320 --ate 1920 --passo 5`: muda a faixa e o passo da varredura.
+
+Os testes precisam de um Chrome/Chromium. Eles usam `CHROME_PATH`, se estiver definido; senão, o Chromium do Playwright (`npx playwright install chromium`); senão, o Chrome instalado no sistema. Screenshots, diffs e relatórios ficam em `tools/.output/`, pasta ignorada pelo git.
+
 ## Estrutura
 
 ```
@@ -53,6 +78,7 @@ src/
     site.ts              nome, URL, telefone, endereço, redes, link do formulário
     json-ld.ts           dados estruturados MedicalClinic (schema.org)
   types/                 tipos compartilhados
+tools/                   testes: visual, acessibilidade, desempenho, larguras
 scripts/
   normalizar-logo.mjs    padroniza logos de convênio
   gerar-imagens-seo.mjs  gera imagem de Open Graph, favicon e ícones
