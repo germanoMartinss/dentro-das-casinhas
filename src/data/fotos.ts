@@ -27,3 +27,6 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   "Sala de espera com poltronas e almofadas, planta e parede pintada com casinhas em tons pastel",
   "Espaço de brincar com gramado sintético, golzinho, bola, amarelinha no chão e painel decorativo de polvo",
 ].map((alt, i) => ({ src: `/images/casinha/${i + 1}.jpg`, alt }));
+
+/** Foto do hero: o salão amplo (mesa coletiva, casinhas pintadas, escorregador), sem pessoas. */
+export const HERO_PHOTO = GALLERY_PHOTOS[9];

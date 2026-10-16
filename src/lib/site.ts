@@ -20,6 +20,9 @@ export const LOGO_SIZE = { width: 399, height: 501 };
 export const logoWidthFor = (height: number) =>
   Math.round((height * LOGO_SIZE.width) / LOGO_SIZE.height);
 
+/** Anos de atuação da clínica (faixa de confiança do hero). */
+export const YEARS_OF_CARE = 6;
+
 export const SITE_DESCRIPTION =
   "Clínica multidisciplinar especializada em intervenção para crianças neurodivergentes, com terapias baseadas em evidências científicas.";
 
