@@ -178,25 +178,31 @@ Visual mais profissional, mantendo a identidade (paleta, toldo, polaroids, Baloo
 - **Hero:** duas colunas, com foto em polaroid e faixa de confiança com contador.
 - **Seções novas:** Como funciona, FAQ em sanfona, Equipe e Depoimentos (só com dados reais) e CTA final.
 - **Animações:** toldo, entrada ao rolar, polaroids, faixa de convênios, header e cards.
-- **WhatsApp:** botão flutuante e links no contato.
+- **WhatsApp:** botão flutuante e links no contato, atrás da flag `WHATSAPP_CONFIRMADO`.
 
 Medição no build de produção, antes (commit `250f386`) e depois da fase 2. Lighthouse mobile com 4G lento simulado, mediana de 5 execuções:
 
 | | Antes | Depois |
 |---|---|---|
-| Performance (Lighthouse) | 95 | 93 |
-| LCP | 2,93 s | 3,28 s |
+| Performance (Lighthouse) | 95 | 97 |
+| LCP | 2,93 s | 2,63 s |
+| FCP | 0,91 s | 1,21 s |
 | CLS no carregamento | 0 | 0 |
 | CLS rolando a página inteira (390px) | 0 | 0 |
-| Peso total (página inteira) | 520 KB | 499 KB |
+| Peso total (página inteira) | 520 KB | 475 KB |
 | Violações do axe-core | 1 regra (contraste, 20 nós) | nenhuma |
 
-O LCP subiu ~350 ms, e o elemento de LCP continua sendo o parágrafo do hero (texto, depende da fonte Nunito). Com e sem o `preload` da foto o resultado é idêntico, e nenhuma animação toca o hero. A diferença vem do hero novo (HTML e CSS maiores e a foto disputando banda no primeiro carregamento). Para recuperar esse tempo, um caminho é reduzir os pesos de fonte carregados (hoje 144 KB).
+Com o hero novo, o LCP chegou a 3,28 s. O elemento de LCP é o parágrafo do hero, que depende da fonte Nunito. Duas mudanças de fonte o trouxeram para 2,63 s:
+
+- carregar só os pesos usados: Baloo 2 700/800, Nunito 400/700/800 e Caveat 700;
+- tirar o preload da Caveat, que só aparece em detalhes.
+
+O FCP subiu ~300 ms nesse ajuste.
 
 ## Pendências que dependem da clínica
 
 1. **Link de agendamento.** `GOOGLE_FORM_URL` em `src/lib/site.ts` ainda é `"#"`; todos os botões "Agende uma visita" usam esse valor.
-2. **WhatsApp.** Confirmar que (13) 98214-6166 é WhatsApp (TODO em `src/lib/site.ts`).
+2. **WhatsApp.** O botão e os links estão prontos, mas desligados (`WHATSAPP_CONFIRMADO = false` em `src/lib/site.ts`). Quando a clínica confirmar que (13) 98214-6166 é WhatsApp, mude para `true`.
 3. **FAQ.** Respostas sobre a faixa etária atendida e sobre a primeira visita; atendimento particular e reembolso (TODOs em `src/data/faq.ts`).
 4. **Equipe.** Fotos autorizadas, nomes, especialidades e registros profissionais (`src/data/equipe.ts`).
 5. **Depoimentos.** Relatos reais, com autorização das famílias (`src/data/depoimentos.ts`).
