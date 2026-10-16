@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { ADDRESS_LINES, PHONE, SITE_NAME, SOCIAL_LINKS, logoWidthFor } from "@/lib/site";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { ADDRESS_LINES, PHONE, SITE_NAME, SOCIAL_LINKS, WHATSAPP_URL, logoWidthFor } from "@/lib/site";
 import type { SocialNetwork } from "@/types";
 
 const SOCIAL_ICONS: Record<SocialNetwork, ReactNode> = {
@@ -34,7 +35,7 @@ const SOCIAL_ICONS: Record<SocialNetwork, ReactNode> = {
 
 export default function Footer() {
   return (
-    <footer id="contato" className="bg-slate-night text-cream px-[6vw] pt-14 pb-7 focus-ring-light">
+    <footer id="contato" className="bg-slate-night text-cream px-[6vw] pt-14 pb-28 sm:pb-7 focus-ring-light">
       <div className="flex flex-wrap gap-10 max-w-[1080px] mx-auto mb-9 justify-between">
         <div className="max-w-[320px]">
           <Image
@@ -53,7 +54,20 @@ export default function Footer() {
         <div>
           <h2 className="font-extrabold text-sm mb-3.5 text-white">Contato</h2>
           <p className="text-sm mb-2 text-cream">
-            <a href={`tel:${PHONE.e164}`}>{PHONE.display}</a>
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 underline underline-offset-4 decoration-cream/40 hover:decoration-cream"
+            >
+              <WhatsAppIcon size={15} />
+              {PHONE.display}
+              <span className="sr-only">no WhatsApp (abre em nova aba)</span>
+            </a>
+            <span className="mx-2" aria-hidden="true">·</span>
+            <a href={`tel:${PHONE.e164}`} className="underline underline-offset-4 decoration-cream/40 hover:decoration-cream">
+              ou ligue
+            </a>
           </p>
           <p className="text-sm text-cream leading-normal">
             {ADDRESS_LINES[0]}

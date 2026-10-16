@@ -1,5 +1,6 @@
 import CtaLink from "@/components/CtaLink";
-import { ADDRESS_LINES, MAP_EMBED_URL, PHONE } from "@/lib/site";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { ADDRESS_LINES, MAP_EMBED_URL, PHONE, WHATSAPP_URL } from "@/lib/site";
 
 export default function Localizacao() {
   return (
@@ -61,9 +62,22 @@ export default function Localizacao() {
               </svg>
             </div>
             <div>
-              <p className="font-extrabold text-[15px] mb-1 text-white">Telefone</p>
+              <p className="font-extrabold text-[15px] mb-1 text-white">WhatsApp e telefone</p>
               <p className="text-[15px] text-linen">
-                <a href={`tel:${PHONE.e164}`}>{PHONE.display}</a>
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 font-bold underline underline-offset-4 decoration-linen/50 hover:decoration-linen"
+                >
+                  <WhatsAppIcon size={16} />
+                  {PHONE.display}
+                  <span className="sr-only">no WhatsApp (abre em nova aba)</span>
+                </a>
+                <span className="mx-2" aria-hidden="true">·</span>
+                <a href={`tel:${PHONE.e164}`} className="underline underline-offset-4 decoration-linen/50 hover:decoration-linen">
+                  ou ligue
+                </a>
               </p>
             </div>
           </div>

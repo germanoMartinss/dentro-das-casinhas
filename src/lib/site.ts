@@ -32,6 +32,10 @@ export const PHONE = {
   e164: "+5513982146166",
 };
 
+// TODO(clínica): confirmar que o número acima é WhatsApp.
+export const WHATSAPP_MESSAGE = "Olá! Gostaria de saber mais sobre a Dentro Das Casinhas.";
+export const WHATSAPP_URL = `https://wa.me/${PHONE.e164.replace(/\D/g, "")}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+
 export const ADDRESS = {
   street: "Av. Presidente Costa e Silva, 1500",
   neighborhood: "Boqueirão",

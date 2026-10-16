@@ -37,6 +37,10 @@
   --color-slate-night: #4a5266;
   --color-linen: #f0ede6;
 
+  /* Verde do WhatsApp em tom fechado (4,1:1 com o ícone branco) */
+  --color-whatsapp: #128c7e;
+  --color-whatsapp-dark: #0b6b60;
+
   /* Sombras sólidas deslocadas */
   --shadow-card: 0 4px 0 rgba(61, 58, 52, 0.06);
   --shadow-logo: 0 4px 0 rgba(0, 0, 0, 0.08);

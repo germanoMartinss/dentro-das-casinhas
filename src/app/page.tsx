@@ -11,6 +11,7 @@ import Equipe from "@/components/Equipe";
 import Faq from "@/components/Faq";
 import CtaFinal from "@/components/CtaFinal";
 import RevealOnScroll from "@/components/RevealOnScroll";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import Footer from "@/components/Footer";
 import { clinicJsonLd, serializeJsonLd } from "@/lib/json-ld";
 
@@ -46,6 +47,7 @@ export default function Home() {
         <CtaFinal />
       </main>
       <Footer />
+      <WhatsAppButton />
       <RevealOnScroll />
     </>
   );
