@@ -21,11 +21,14 @@ const TESTIMONIALS = [
 
 export default function Depoimentos() {
   return (
-    <section id="depoimentos" className="text-center bg-cream px-[6vw] py-21">
+    <section id="depoimentos" aria-labelledby="depoimentos-titulo" className="text-center bg-cream px-[6vw] py-21">
       <p className="font-hand text-[32px] text-terracotta font-bold mb-1">
         quem já passou pela porta
       </p>
-      <h2 className="font-heading font-extrabold text-[clamp(28px,4vw,40px)] mb-11 text-ink">
+      <h2
+        id="depoimentos-titulo"
+        className="font-heading font-extrabold text-[clamp(28px,4vw,40px)] mb-11 text-ink"
+      >
         Depoimentos
       </h2>
 
@@ -35,7 +38,7 @@ export default function Depoimentos() {
             key={i}
             className="bg-white rounded-3xl px-6 py-7 text-left shadow-card"
           >
-            <svg width="32" height="25" viewBox="0 0 28 22" fill="none" className="mb-3">
+            <svg width="32" height="25" viewBox="0 0 28 22" fill="none" className="mb-3" aria-hidden="true">
               <path
                 d="M0 22V13.5C0 6 4.5 1 11 0l1.5 3.5C8 5 5.5 7.5 5.5 11h6.5v11H0zm15 0V13.5C15 6 19.5 1 26 0l1.5 3.5C23 5 20.5 7.5 20.5 11H27v11H15z"
                 className="fill-mustard"

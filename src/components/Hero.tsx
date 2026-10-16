@@ -4,13 +4,14 @@ import { GOOGLE_FORM_URL } from "@/lib/site";
 
 export default function Hero() {
   return (
-    <>
+    <section aria-labelledby="inicio-titulo">
+      {/* Faixa decorativa: o logo repete o do cabeçalho, por isso alt="" */}
       <div className="bg-terracotta-band">
         <Bunting />
         <div className="flex justify-center px-[6vw] pt-8 pb-9">
           <Image
             src="/images/logo-white.png"
-            alt="Dentro Das Casinhas"
+            alt=""
             width={270}
             height={175}
             className="h-[175px] w-auto"
@@ -18,9 +19,12 @@ export default function Hero() {
         </div>
       </div>
 
-      <section className="relative text-center bg-cream bg-grid overflow-hidden px-[6vw] pt-16 pb-22">
+      <div className="relative text-center bg-cream bg-grid overflow-hidden px-[6vw] pt-16 pb-22">
         <div className="relative max-w-[720px] mx-auto">
-          <h1 className="font-heading font-extrabold text-[clamp(32px,5vw,52px)] leading-[1.15] mb-[18px] text-ink">
+          <h1
+            id="inicio-titulo"
+            className="font-heading font-extrabold text-[clamp(32px,5vw,52px)] leading-[1.15] mb-[18px] text-ink"
+          >
             Cuidado que constrói{" "}
             <span className="text-terracotta">autonomia</span>, dentro de
             casa e além dela.
@@ -40,7 +44,7 @@ export default function Hero() {
             Agende uma visita
           </a>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

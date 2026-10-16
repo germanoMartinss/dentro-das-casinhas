@@ -11,8 +11,14 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <>
+      <a
+        href="#conteudo"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200] focus:bg-ink focus:text-white focus:font-bold focus:px-4 focus:py-3 focus:rounded-xl"
+      >
+        Pular para o conteúdo
+      </a>
       <Header />
-      <main>
+      <main id="conteudo" tabIndex={-1} className="focus:outline-none">
         <Hero />
         <Sobre />
         <Galeria />

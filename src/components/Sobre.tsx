@@ -2,16 +2,21 @@ export default function Sobre() {
   return (
     <section
       id="sobre"
+      aria-labelledby="sobre-titulo"
       className="relative text-center overflow-hidden px-[6vw] py-21 bg-sand"
     >
+      {/* Um único título em duas linhas: a primeira só com contorno */}
       <h2
-        className="font-heading font-extrabold text-[clamp(30px,4.5vw,46px)] mb-2 tracking-wide text-transparent"
-        style={{ WebkitTextStroke: "2px var(--color-gold)" }}
+        id="sobre-titulo"
+        className="font-heading font-extrabold text-[clamp(30px,4.5vw,46px)] tracking-wide mb-9"
       >
-        A CULTURA
-      </h2>
-      <h2 className="font-heading font-extrabold text-[clamp(30px,4.5vw,46px)] text-gold mb-9 tracking-wide">
-        DA CASINHA
+        <span
+          className="block mb-2 text-transparent"
+          style={{ WebkitTextStroke: "2px var(--color-gold)" }}
+        >
+          A CULTURA
+        </span>{" "}
+        <span className="block text-gold">DA CASINHA</span>
       </h2>
       <p className="max-w-[680px] mx-auto mb-6 text-[19px] leading-[1.75] text-ink-soft">
         Nossa missão é{" "}

@@ -5,20 +5,20 @@ import type { SocialNetwork } from "@/types";
 
 const SOCIAL_ICONS: Record<SocialNetwork, ReactNode> = {
   instagram: (
-    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" className="stroke-cream">
+    <svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" className="stroke-cream">
       <rect x="3" y="3" width="18" height="18" rx="5" strokeWidth="2" />
       <circle cx="12" cy="12" r="4" strokeWidth="2" />
       <circle cx="17.5" cy="6.5" r="1.2" className="fill-cream stroke-none" />
     </svg>
   ),
   youtube: (
-    <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
+    <svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none">
       <rect x="2.5" y="5.5" width="19" height="13" rx="4" strokeWidth="2" className="stroke-cream" />
       <path d="M10.5 9.5l5 2.5-5 2.5v-5z" className="fill-cream" />
     </svg>
   ),
   tiktok: (
-    <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
+    <svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none">
       <path
         d="M16.5 3c.4 2.2 1.8 3.6 4 3.9v2.9c-1.4.1-2.8-.3-4-1.1v6.2c0 3.4-2.7 5.6-5.7 5.6-3 0-5.5-2.3-5.5-5.5s2.5-5.5 5.5-5.5c.4 0 .7 0 1 .1v3c-.3-.1-.6-.2-1-.2-1.4 0-2.5 1.1-2.5 2.6 0 1.4 1.1 2.5 2.5 2.5 1.5 0 2.7-1.1 2.7-2.7V3h3z"
         className="fill-cream"
@@ -26,7 +26,7 @@ const SOCIAL_ICONS: Record<SocialNetwork, ReactNode> = {
     </svg>
   ),
   kwai: (
-    <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
+    <svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none">
       <path d="M4 4h5l3 5 3-5h5l-6 8 6 8h-5l-3-5-3 5H4l6-8-6-8z" className="fill-cream" />
     </svg>
   ),
@@ -34,12 +34,12 @@ const SOCIAL_ICONS: Record<SocialNetwork, ReactNode> = {
 
 export default function Footer() {
   return (
-    <footer id="contato" className="bg-slate-deep text-cream px-[6vw] pt-14 pb-7">
+    <footer id="contato" className="bg-slate-deep text-cream px-[6vw] pt-14 pb-7 focus-ring-light">
       <div className="flex flex-wrap gap-10 max-w-[1080px] mx-auto mb-9 justify-between">
         <div className="max-w-[320px]">
           <Image
             src="/images/logo-white.png"
-            alt="Dentro Das Casinhas"
+            alt="Dentro Das Casinhas, clínica multidisciplinar infantil"
             width={140}
             height={44}
             className="h-11 w-auto mb-3.5"
@@ -51,8 +51,10 @@ export default function Footer() {
         </div>
 
         <div>
-          <p className="font-extrabold text-sm mb-3.5 text-white">Contato</p>
-          <p className="text-sm mb-2 text-slate-pale">{PHONE.display}</p>
+          <h2 className="font-extrabold text-sm mb-3.5 text-white">Contato</h2>
+          <p className="text-sm mb-2 text-slate-pale">
+            <a href={`tel:${PHONE.e164}`}>{PHONE.display}</a>
+          </p>
           <p className="text-sm text-slate-pale leading-normal">
             {ADDRESS_LINES[0]}
             <br />
@@ -61,9 +63,9 @@ export default function Footer() {
         </div>
 
         <div>
-          <p className="font-extrabold text-sm mb-3.5 text-white">
+          <h2 className="font-extrabold text-sm mb-3.5 text-white">
             Redes sociais
-          </p>
+          </h2>
           <div className="flex gap-3">
             {SOCIAL_LINKS.map((social) => (
               <a
@@ -71,8 +73,8 @@ export default function Footer() {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-[44px] h-[44px] rounded-xl bg-cream/[0.12] flex items-center justify-center hover:bg-cream/20 transition-colors"
-                aria-label={social.label}
+                className="w-[44px] h-[44px] rounded-xl bg-cream/[0.12] flex items-center justify-center hover:bg-cream/20 focus-visible:bg-cream/20 transition-colors"
+                aria-label={`${social.label} (abre em nova aba)`}
               >
                 {SOCIAL_ICONS[social.network]}
               </a>

@@ -1,15 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { NAV_LINKS } from "@/data/navegacao";
 import { GOOGLE_FORM_URL } from "@/lib/site";
 
+const MOBILE_MENU_ID = "menu-mobile";
+
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  // Com o menu aberto: Esc fecha e devolve o foco ao botão; clique fora fecha.
+  useEffect(() => {
+    if (!open) return;
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    }
+    function onPointerDown(e: PointerEvent) {
+      if (!headerRef.current?.contains(e.target as Node)) setOpen(false);
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 bg-cream border-b-2 border-ink/[0.08] flex items-center justify-between px-[5vw] py-3">
+    <header
+      ref={headerRef}
+      className="sticky top-0 z-50 bg-cream border-b-2 border-ink/[0.08] flex items-center justify-between px-[5vw] py-3"
+    >
       <Image
         src="/images/logo-ink.png"
         alt="Dentro Das Casinhas"
@@ -19,7 +48,7 @@ export default function Header() {
         priority
       />
 
-      <nav className="hidden md:flex items-center gap-7">
+      <nav aria-label="Menu principal" className="hidden md:flex items-center gap-7">
         {NAV_LINKS.map((link) => (
           <a
             key={link.href}
@@ -40,40 +69,58 @@ export default function Header() {
       </nav>
 
       <button
+        ref={toggleRef}
+        type="button"
         onClick={() => setOpen((v) => !v)}
         className="flex md:hidden bg-transparent border-none cursor-pointer p-2"
-        aria-label="Abrir menu"
+        aria-label={open ? "Fechar menu" : "Abrir menu"}
+        aria-expanded={open}
+        aria-controls={MOBILE_MENU_ID}
       >
-        <svg width="26" height="20" viewBox="0 0 26 20" className="fill-ink">
-          <rect width="26" height="3" rx="1.5" />
-          <rect y="8.5" width="26" height="3" rx="1.5" />
-          <rect y="17" width="26" height="3" rx="1.5" />
-        </svg>
+        {open ? (
+          <svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true">
+            <path
+              d="M5 1.5l16 17M21 1.5l-16 17"
+              className="stroke-ink"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
+          </svg>
+        ) : (
+          <svg width="26" height="20" viewBox="0 0 26 20" className="fill-ink" aria-hidden="true">
+            <rect width="26" height="3" rx="1.5" />
+            <rect y="8.5" width="26" height="3" rx="1.5" />
+            <rect y="17" width="26" height="3" rx="1.5" />
+          </svg>
+        )}
       </button>
 
-      {open && (
-        <nav className="absolute top-full left-0 right-0 md:hidden flex flex-col gap-1 bg-cream px-[5vw] pb-5 pt-3 border-b-2 border-ink/[0.08]">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="text-ink font-bold text-lg py-2.5"
-            >
-              {link.label}
-            </a>
-          ))}
+      <nav
+        id={MOBILE_MENU_ID}
+        aria-label="Menu principal (celular)"
+        hidden={!open}
+        className="absolute top-full left-0 right-0 md:hidden flex flex-col gap-1 bg-cream px-[5vw] pb-5 pt-3 border-b-2 border-ink/[0.08]"
+      >
+        {NAV_LINKS.map((link) => (
           <a
-            href={GOOGLE_FORM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            key={link.href}
+            href={link.href}
             onClick={() => setOpen(false)}
-            className="bg-terracotta text-white px-5 py-3 rounded-full font-extrabold text-[15px] text-center mt-2"
+            className="text-ink font-bold text-lg py-2.5"
           >
-            Agende uma visita
+            {link.label}
           </a>
-        </nav>
-      )}
+        ))}
+        <a
+          href={GOOGLE_FORM_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => setOpen(false)}
+          className="bg-terracotta text-white px-5 py-3 rounded-full font-extrabold text-[15px] text-center mt-2"
+        >
+          Agende uma visita
+        </a>
+      </nav>
     </header>
   );
 }

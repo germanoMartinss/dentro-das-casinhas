@@ -82,11 +82,28 @@
     font-family: var(--font-sans);
   }
 
-  html {
-    scroll-behavior: smooth;
+  /* Rolagem suave só para quem não pediu movimento reduzido no sistema */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   section[id] {
     scroll-margin-top: 120px;
   }
+
+  /*
+   * Anel de foco para navegação por teclado. A cor vem de --focus-ring:
+   * tinta sobre fundos claros; seções escuras trocam para branco com
+   * focus-ring-light.
+   */
+  :focus-visible {
+    outline: 3px solid var(--focus-ring, var(--color-ink));
+    outline-offset: 3px;
+  }
+}
+
+@utility focus-ring-light {
+  --focus-ring: #fff;
 }
