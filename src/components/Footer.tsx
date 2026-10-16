@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
-import { ADDRESS_LINES, PHONE, SITE_NAME, SOCIAL_LINKS, WHATSAPP_URL, logoWidthFor } from "@/lib/site";
+import { ADDRESS_LINES, PHONE, SITE_NAME, SOCIAL_LINKS, WHATSAPP_CONFIRMADO, WHATSAPP_URL, logoWidthFor } from "@/lib/site";
 import type { SocialNetwork } from "@/types";
 
 const SOCIAL_ICONS: Record<SocialNetwork, ReactNode> = {
@@ -35,7 +35,10 @@ const SOCIAL_ICONS: Record<SocialNetwork, ReactNode> = {
 
 export default function Footer() {
   return (
-    <footer id="contato" className="bg-slate-night text-cream px-[6vw] pt-14 pb-28 sm:pb-7 focus-ring-light">
+    <footer
+      id="contato"
+      className={`bg-slate-night text-cream px-[6vw] pt-14 ${WHATSAPP_CONFIRMADO ? "pb-28 sm:pb-7" : "pb-7"} focus-ring-light`}
+    >
       <div className="flex flex-wrap gap-10 max-w-[1080px] mx-auto mb-9 justify-between">
         <div className="max-w-[320px]">
           <Image
@@ -53,6 +56,7 @@ export default function Footer() {
 
         <div>
           <h2 className="font-extrabold text-sm mb-3.5 text-white">Contato</h2>
+          {WHATSAPP_CONFIRMADO ? (
           <p className="text-sm mb-2 text-cream">
             <a
               href={WHATSAPP_URL}
@@ -69,6 +73,13 @@ export default function Footer() {
               ou ligue
             </a>
           </p>
+          ) : (
+            <p className="text-sm mb-2 text-cream">
+              <a href={`tel:${PHONE.e164}`} className="underline underline-offset-4 decoration-cream/40 hover:decoration-cream">
+                {PHONE.display}
+              </a>
+            </p>
+          )}
           <p className="text-sm text-cream leading-normal">
             {ADDRESS_LINES[0]}
             <br />

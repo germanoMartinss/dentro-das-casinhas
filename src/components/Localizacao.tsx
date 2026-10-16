@@ -1,6 +1,6 @@
 import CtaLink from "@/components/CtaLink";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
-import { ADDRESS_LINES, MAP_EMBED_URL, PHONE, WHATSAPP_URL } from "@/lib/site";
+import { ADDRESS_LINES, MAP_EMBED_URL, PHONE, WHATSAPP_CONFIRMADO, WHATSAPP_URL } from "@/lib/site";
 
 export default function Localizacao() {
   return (
@@ -62,7 +62,10 @@ export default function Localizacao() {
               </svg>
             </div>
             <div>
-              <p className="font-extrabold text-[15px] mb-1 text-white">WhatsApp e telefone</p>
+              <p className="font-extrabold text-[15px] mb-1 text-white">
+                {WHATSAPP_CONFIRMADO ? "WhatsApp e telefone" : "Telefone"}
+              </p>
+              {WHATSAPP_CONFIRMADO ? (
               <p className="text-[15px] text-linen">
                 <a
                   href={WHATSAPP_URL}
@@ -79,6 +82,13 @@ export default function Localizacao() {
                   ou ligue
                 </a>
               </p>
+              ) : (
+                <p className="text-[15px] text-linen">
+                  <a href={`tel:${PHONE.e164}`} className="underline underline-offset-4 decoration-linen/50 hover:decoration-linen">
+                    {PHONE.display}
+                  </a>
+                </p>
+              )}
             </div>
           </div>
           <CtaLink className="text-base px-[30px] py-3.5 shadow-cta" />

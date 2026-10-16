@@ -1,11 +1,13 @@
 import WhatsAppIcon from "@/components/WhatsAppIcon";
-import { WHATSAPP_URL } from "@/lib/site";
+import { WHATSAPP_CONFIRMADO, WHATSAPP_URL } from "@/lib/site";
 
 /**
- * Botão flutuante do WhatsApp. No mobile o rodapé ganha espaço extra
- * embaixo (pb-28) para o botão não cobrir o último conteúdo.
+ * Botão flutuante do WhatsApp (só com WHATSAPP_CONFIRMADO). No mobile o
+ * rodapé ganha espaço extra embaixo para o botão não cobrir o último conteúdo.
  */
 export default function WhatsAppButton() {
+  if (!WHATSAPP_CONFIRMADO) return null;
+
   return (
     <aside aria-label="Contato rápido">
     <a
