@@ -24,10 +24,8 @@ export type Therapy = {
 
 export type InsurancePlan = {
   name: string;
-  /** Caminho a partir de /public. */
+  /** Caminho a partir de /public; arquivo gerado por scripts/normalizar-logo.mjs. */
   logo: string;
-  /** Ajuste de escala para compensar margens internas do PNG. */
-  scale: number;
 };
 
 export type GalleryPhoto = {

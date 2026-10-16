@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { ADDRESS_LINES, PHONE, SOCIAL_LINKS } from "@/lib/site";
+import { ADDRESS_LINES, PHONE, SOCIAL_LINKS, logoWidthFor } from "@/lib/site";
 import type { SocialNetwork } from "@/types";
 
 const SOCIAL_ICONS: Record<SocialNetwork, ReactNode> = {
@@ -40,7 +40,7 @@ export default function Footer() {
           <Image
             src="/images/logo-white.png"
             alt="Dentro Das Casinhas, clínica multidisciplinar infantil"
-            width={140}
+            width={logoWidthFor(44)}
             height={44}
             className="h-11 w-auto mb-3.5"
           />

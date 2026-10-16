@@ -1,4 +1,4 @@
-import { ADDRESS_LINES, GOOGLE_FORM_URL, PHONE } from "@/lib/site";
+import { ADDRESS_LINES, GOOGLE_FORM_URL, MAP_EMBED_URL, PHONE } from "@/lib/site";
 
 export default function Localizacao() {
   return (
@@ -21,7 +21,7 @@ export default function Localizacao() {
         <div className="flex-1 min-w-[380px] max-w-[460px] aspect-[4/3] rounded-3xl overflow-hidden shadow-map">
           <iframe
             title="Localização Dentro Das Casinhas no mapa"
-            src="https://maps.google.com/maps?q=Av.%20Presidente%20Costa%20e%20Silva%2C%201500%2C%20Boquei%C3%A3o%2C%20Praia%20Grande%20-%20SP&z=16&output=embed"
+            src={MAP_EMBED_URL}
             className="w-full h-full border-0"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"

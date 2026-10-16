@@ -2,6 +2,10 @@ import Image from "next/image";
 import Bunting from "@/components/Bunting";
 import { INSURANCE_PLANS } from "@/data/convenios";
 
+// Tela padrão dos logos em px CSS (o arquivo é 2x). Igual a LOGO_BOX em
+// scripts/normalizar-logo.mjs.
+const LOGO_BOX = { width: 160, height: 72 };
+
 export default function Convenios() {
   return (
     <section
@@ -25,15 +29,14 @@ export default function Convenios() {
           {INSURANCE_PLANS.map((plan) => (
             <li
               key={plan.name}
-              className="bg-white rounded-2xl px-5 py-8 flex items-center justify-center min-h-[110px] overflow-hidden shadow-logo"
+              className="bg-white rounded-2xl px-5 py-6 flex items-center justify-center min-h-[110px] overflow-hidden shadow-logo"
             >
               <Image
                 src={plan.logo}
                 alt={`Logo ${plan.name}`}
-                width={180}
-                height={64}
-                className="h-14 w-auto max-w-full object-contain"
-                style={{ transform: `scale(${plan.scale})` }}
+                width={LOGO_BOX.width}
+                height={LOGO_BOX.height}
+                className="w-[160px] h-[72px] max-w-none shrink-0 object-contain"
               />
             </li>
           ))}

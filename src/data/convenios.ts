@@ -1,11 +1,16 @@
 import type { InsurancePlan } from "@/types";
 
+/**
+ * Logos em /public/images/convenios, todos padronizados em 320x144px (tela
+ * transparente com o logo centralizado). Para incluir um convênio novo, gere
+ * o arquivo com scripts/normalizar-logo.mjs (instruções no README).
+ */
 export const INSURANCE_PLANS: InsurancePlan[] = [
-  { name: "Amil", logo: "/images/logos/amil-2.png", scale: 1.6 },
-  { name: "Bradesco Saúde", logo: "/images/logos/bradesco-saude-logo-1-1.png", scale: 1 },
-  { name: "Porto Saúde", logo: "/images/logos/porto-saude-1.png", scale: 1.6 },
-  { name: "Mediservice", logo: "/images/logos/mediservice.png", scale: 2.1 },
-  { name: "New Leader", logo: "/images/logos/newleader.png", scale: 1.7 },
-  { name: "Fundação Saúde Itaú", logo: "/images/logos/logo-fundacao-itau.png", scale: 1 },
-  { name: "Life Empresarial", logo: "/images/logos/logo-life.png", scale: 1.15 },
+  { name: "Amil", logo: "/images/convenios/amil.png" },
+  { name: "Bradesco Saúde", logo: "/images/convenios/bradesco-saude.png" },
+  { name: "Porto Saúde", logo: "/images/convenios/porto-saude.png" },
+  { name: "Mediservice", logo: "/images/convenios/mediservice.png" },
+  { name: "New Leader", logo: "/images/convenios/new-leader.png" },
+  { name: "Fundação Saúde Itaú", logo: "/images/convenios/fundacao-saude-itau.png" },
+  { name: "Life Empresarial", logo: "/images/convenios/life-empresarial.png" },
 ];

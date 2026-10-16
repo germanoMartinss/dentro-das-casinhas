@@ -13,6 +13,13 @@ export const GOOGLE_FORM_URL = "#";
 
 export const SITE_NAME = "Dentro Das Casinhas";
 
+/** Dimensões reais dos arquivos de logo da marca (logo-ink/logo-white.png). */
+export const LOGO_SIZE = { width: 399, height: 501 };
+
+/** Largura do logo para uma altura de exibição, mantendo a proporção real. */
+export const logoWidthFor = (height: number) =>
+  Math.round((height * LOGO_SIZE.width) / LOGO_SIZE.height);
+
 export const SITE_DESCRIPTION =
   "Clínica multidisciplinar especializada em intervenção para crianças neurodivergentes, com terapias baseadas em evidências científicas.";
 
@@ -29,6 +36,11 @@ export const ADDRESS = {
   state: "SP",
   country: "BR",
 };
+
+export const FULL_ADDRESS = `${ADDRESS.street}, ${ADDRESS.neighborhood}, ${ADDRESS.city} - ${ADDRESS.state}`;
+
+/** Mapa incorporado (iframe) do Google Maps apontando para o endereço. */
+export const MAP_EMBED_URL = `https://maps.google.com/maps?q=${encodeURIComponent(FULL_ADDRESS)}&z=16&output=embed`;
 
 /** Endereço em duas linhas, como exibido na página. */
 export const ADDRESS_LINES = [

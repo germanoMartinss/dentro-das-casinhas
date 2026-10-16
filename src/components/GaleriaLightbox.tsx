@@ -130,7 +130,8 @@ export default function GaleriaLightbox({ photos, className, children }: Props) 
             src={photos[selected].src}
             alt={photos[selected].alt}
             width={1200}
-            height={1200}
+            height={800}
+            sizes="88vw"
             className="max-h-[85vh] max-w-full w-auto h-auto object-contain rounded-lg"
             onClick={(e) => e.stopPropagation()}
           />

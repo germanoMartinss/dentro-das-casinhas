@@ -1,20 +1,25 @@
 import Image from "next/image";
 import Bunting from "@/components/Bunting";
-import { GOOGLE_FORM_URL } from "@/lib/site";
+import { GOOGLE_FORM_URL, logoWidthFor } from "@/lib/site";
 
 export default function Hero() {
   return (
     <section aria-labelledby="inicio-titulo">
-      {/* Faixa decorativa: o logo repete o do cabeçalho, por isso alt="" */}
+      {/*
+        Faixa decorativa: o logo repete o do cabeçalho, por isso alt="".
+        Sem `preload`: o LCP é o parágrafo do hero (texto), e pré-carregar o
+        logo disputa banda com as fontes (medido: LCP +150ms em 4G lento).
+      */}
       <div className="bg-terracotta-band">
         <Bunting />
         <div className="flex justify-center px-[6vw] pt-8 pb-9">
           <Image
             src="/images/logo-white.png"
             alt=""
-            width={270}
+            width={logoWidthFor(175)}
             height={175}
             className="h-[175px] w-auto"
+            loading="eager"
           />
         </div>
       </div>

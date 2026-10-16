@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { NAV_LINKS } from "@/data/navegacao";
-import { GOOGLE_FORM_URL } from "@/lib/site";
+import { GOOGLE_FORM_URL, logoWidthFor } from "@/lib/site";
 
 const MOBILE_MENU_ID = "menu-mobile";
 
@@ -42,10 +42,10 @@ export default function Header() {
       <Image
         src="/images/logo-ink.png"
         alt="Dentro Das Casinhas"
-        width={270}
+        width={logoWidthFor(88)}
         height={88}
         className="h-[88px] w-auto"
-        priority
+        loading="eager"
       />
 
       <nav aria-label="Menu principal" className="hidden md:flex items-center gap-7">
