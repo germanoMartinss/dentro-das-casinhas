@@ -1,6 +1,8 @@
-type IconKey = "puzzle" | "speech" | "hand" | "heart" | "footprints" | "book";
+import type { ReactNode } from "react";
+import { THERAPIES } from "@/data/terapias";
+import type { BrandColor, TherapyIcon } from "@/types";
 
-const ICONS: Record<IconKey, React.ReactNode> = {
+const ICONS: Record<TherapyIcon, ReactNode> = {
   puzzle: (
     <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
       <path
@@ -60,72 +62,39 @@ const ICONS: Record<IconKey, React.ReactNode> = {
   ),
 };
 
-const SERVICES: { icon: IconKey; bg: string; title: string; desc: string }[] = [
-  {
-    icon: "puzzle",
-    bg: "#8993A6",
-    title: "Terapia ABA",
-    desc: "Análise do Comportamento Aplicada, com planos individualizados baseados em evidências.",
-  },
-  {
-    icon: "speech",
-    bg: "#D9713C",
-    title: "Fonoaudiologia",
-    desc: "Desenvolvimento da comunicação, fala e linguagem em ritmo próprio.",
-  },
-  {
-    icon: "hand",
-    bg: "#A9C6B5",
-    title: "Terapia Ocupacional",
-    desc: "Estímulo à autonomia nas atividades do dia a dia.",
-  },
-  {
-    icon: "heart",
-    bg: "#E8C15F",
-    title: "Psicologia",
-    desc: "Acompanhamento emocional para a criança e orientação para a família.",
-  },
-  {
-    icon: "footprints",
-    bg: "#8993A6",
-    title: "Fisioterapia",
-    desc: "Trabalho motor e sensorial para um desenvolvimento pleno.",
-  },
-  {
-    icon: "book",
-    bg: "#D9713C",
-    title: "Psicopedagogia",
-    desc: "Apoio à aprendizagem, respeitando o tempo de cada criança.",
-  },
-];
+const ICON_BG: Record<BrandColor, string> = {
+  slate: "bg-slate",
+  mustard: "bg-mustard",
+  sage: "bg-sage",
+  terracotta: "bg-terracotta",
+};
 
 export default function Terapias() {
   return (
-    <section id="terapias" className="text-center bg-[#E7D9BC] px-[6vw] py-21">
+    <section id="terapias" className="text-center bg-sand-deep px-[6vw] py-21">
       <p className="font-hand text-[32px] text-terracotta font-bold mb-1">
         como cuidamos
       </p>
-      <h2 className="font-heading font-extrabold text-[clamp(28px,4vw,40px)] mb-12 text-[#3D3A34]">
+      <h2 className="font-heading font-extrabold text-[clamp(28px,4vw,40px)] mb-12 text-ink">
         Terapias &amp; Serviços
       </h2>
 
       <div className="grid gap-6 max-w-[1080px] mx-auto grid-cols-[repeat(auto-fit,minmax(230px,1fr))]">
-        {SERVICES.map((svc) => (
+        {THERAPIES.map((therapy) => (
           <div
-            key={svc.title}
-            className="bg-white rounded-3xl p-8 px-6 text-left shadow-[0_4px_0_rgba(61,58,52,0.06)]"
+            key={therapy.title}
+            className="bg-white rounded-3xl p-8 px-6 text-left shadow-card"
           >
             <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center mb-[18px]"
-              style={{ background: svc.bg }}
+              className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-[18px] ${ICON_BG[therapy.color]}`}
             >
-              {ICONS[svc.icon]}
+              {ICONS[therapy.icon]}
             </div>
-            <h3 className="font-heading text-[19px] font-bold mb-2 text-[#3D3A34]">
-              {svc.title}
+            <h3 className="font-heading text-[19px] font-bold mb-2 text-ink">
+              {therapy.title}
             </h3>
-            <p className="text-[15px] leading-[1.55] text-[#6A6659]">
-              {svc.desc}
+            <p className="text-[15px] leading-[1.55] text-ink-subtle">
+              {therapy.description}
             </p>
           </div>
         ))}

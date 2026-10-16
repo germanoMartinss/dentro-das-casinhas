@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Baloo_2, Nunito, Caveat } from "next/font/google";
-import "./globals.css";
+import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
+import "@/app/globals.css";
 
 const baloo2 = Baloo_2({
   variable: "--font-baloo",
@@ -21,9 +22,8 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Dentro Das Casinhas | Clínica multidisciplinar infantil",
-  description:
-    "Clínica multidisciplinar especializada em intervenção para crianças neurodivergentes, com terapias baseadas em evidências científicas.",
+  title: `${SITE_NAME} | Clínica multidisciplinar infantil`,
+  description: SITE_DESCRIPTION,
 };
 
 export default function RootLayout({
@@ -36,7 +36,7 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${baloo2.variable} ${nunito.variable} ${caveat.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans text-[#3D3A34] bg-cream">
+      <body className="min-h-full flex flex-col">
         {children}
       </body>
     </html>

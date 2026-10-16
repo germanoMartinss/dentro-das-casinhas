@@ -1,4 +1,4 @@
-import { GOOGLE_FORM_URL } from "../config";
+import { ADDRESS_LINES, GOOGLE_FORM_URL, PHONE } from "@/lib/site";
 
 export default function Localizacao() {
   return (
@@ -6,7 +6,7 @@ export default function Localizacao() {
       id="localizacao"
       className="text-center bg-slate px-[6vw] py-21"
     >
-      <p className="font-hand text-[34px] text-[#3D3A34] font-bold mb-1">
+      <p className="font-hand text-[34px] text-ink font-bold mb-1">
         venha nos conhecer
       </p>
       <h2 className="font-heading font-extrabold text-[clamp(28px,4vw,40px)] mb-10 text-white">
@@ -14,7 +14,7 @@ export default function Localizacao() {
       </h2>
 
       <div className="flex flex-wrap gap-10 max-w-[980px] mx-auto items-center justify-center">
-        <div className="flex-1 min-w-[380px] max-w-[460px] aspect-[4/3] rounded-3xl overflow-hidden shadow-[0_6px_0_rgba(61,58,52,0.1)]">
+        <div className="flex-1 min-w-[380px] max-w-[460px] aspect-[4/3] rounded-3xl overflow-hidden shadow-map">
           <iframe
             title="Localização Dentro Das Casinhas no mapa"
             src="https://maps.google.com/maps?q=Av.%20Presidente%20Costa%20e%20Silva%2C%201500%2C%20Boquei%C3%A3o%2C%20Praia%20Grande%20-%20SP&z=16&output=embed"
@@ -38,10 +38,10 @@ export default function Localizacao() {
             </div>
             <div>
               <p className="font-extrabold text-[15px] mb-1 text-white">Endereço</p>
-              <p className="text-[15px] text-[#F0EDE6] leading-normal">
-                Av. Presidente Costa e Silva, 1500,
+              <p className="text-[15px] text-linen leading-normal">
+                {ADDRESS_LINES[0]}
                 <br />
-                Boqueirão, Praia Grande - SP
+                {ADDRESS_LINES[1]}
               </p>
             </div>
           </div>
@@ -56,14 +56,14 @@ export default function Localizacao() {
             </div>
             <div>
               <p className="font-extrabold text-[15px] mb-1 text-white">Telefone</p>
-              <p className="text-[15px] text-[#F0EDE6]">(13) 98214-6166</p>
+              <p className="text-[15px] text-linen">{PHONE.display}</p>
             </div>
           </div>
           <a
             href={GOOGLE_FORM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-terracotta text-white font-extrabold text-base px-[30px] py-3.5 rounded-full shadow-[0_6px_0_rgba(61,58,52,0.15)] hover:bg-[#b8582a] transition-colors"
+            className="inline-block bg-terracotta text-white font-extrabold text-base px-[30px] py-3.5 rounded-full shadow-cta hover:bg-terracotta-hover transition-colors"
           >
             Agende uma visita
           </a>

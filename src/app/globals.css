@@ -1,29 +1,73 @@
 @import "tailwindcss";
 
-:root {
-  color-scheme: light;
-  --background: #f4ecdc;
-  --foreground: #3a3630;
+/*
+ * Tokens de design. Cada cor vira utilitário do Tailwind (bg-*, text-*,
+ * border-*, fill-*). Os valores são exatamente os usados no layout original.
+ */
+@theme {
+  /* Paleta da marca (extraída dos materiais da Dentro Das Casinhas) */
+  --color-slate: #8993a6;
+  --color-mustard: #e8c15f;
+  --color-sage: #a9c6b5;
+  --color-cream: #f4ecdc;
 
-  /* Dentro Das Casinhas brand palette (extracted from brand materials) */
-  --color-casinha-slate: #8993a6;
-  --color-casinha-mustard: #e8c15f;
-  --color-casinha-sage: #a9c6b5;
-  --color-casinha-terracotta: #d9713c;
-  --color-casinha-cream: #f4ecdc;
+  /* Terracota: a cor da marca, um tom mais fechado usado como fundo das
+     faixas (Hero e Convênios) e o tom de hover dos botões */
+  --color-terracotta: #d9713c;
+  --color-terracotta-band: #c9683a;
+  --color-terracotta-hover: #b8582a;
+
+  /* Texto, do mais escuro ao mais claro */
+  --color-ink: #3d3a34;
+  --color-ink-soft: #4a473f;
+  --color-ink-muted: #55524b;
+  --color-ink-subtle: #6a6659;
+  --color-ink-faint: #a9a493;
+
+  /* Fundos de seção */
+  --color-sand: #ede0c8;
+  --color-sand-deep: #e7d9bc;
+  --color-gold: #c9a85d;
+
+  /* Azul-acinzentado escuro do rodapé e seus textos */
+  --color-slate-deep: #5b6478;
+  --color-slate-pale: #c7ccd8;
+  --color-slate-soft: #a5acbb;
+  --color-linen: #f0ede6;
+
+  /* Sombras sólidas deslocadas */
+  --shadow-card: 0 4px 0 rgba(61, 58, 52, 0.06);
+  --shadow-logo: 0 4px 0 rgba(0, 0, 0, 0.08);
+  --shadow-map: 0 6px 0 rgba(61, 58, 52, 0.1);
+  --shadow-cta: 0 6px 0 rgba(61, 58, 52, 0.15);
+  --shadow-polaroid: 0 8px 18px rgba(61, 58, 52, 0.2);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-slate: var(--color-casinha-slate);
-  --color-mustard: var(--color-casinha-mustard);
-  --color-sage: var(--color-casinha-sage);
-  --color-terracotta: var(--color-casinha-terracotta);
-  --color-cream: var(--color-casinha-cream);
   --font-sans: var(--font-nunito);
   --font-heading: var(--font-baloo);
   --font-hand: var(--font-caveat);
+}
+
+:root {
+  color-scheme: light;
+  --background: var(--color-cream);
+  --foreground: var(--color-ink);
+}
+
+/*
+ * Fundo quadriculado (linhas a cada 30px na vertical e 58px na horizontal).
+ * A cor da linha vem de --grid-line; bg-grid-light troca para linhas brancas
+ * em fundos escuros.
+ */
+@utility bg-grid {
+  background-image:
+    repeating-linear-gradient(0deg, var(--grid-line, rgba(61, 58, 52, 0.035)) 0 1.5px, transparent 1.5px 30px),
+    repeating-linear-gradient(90deg, var(--grid-line, rgba(61, 58, 52, 0.035)) 0 1.5px, transparent 1.5px 58px);
+}
+
+@utility bg-grid-light {
+  --grid-line: rgba(255, 255, 255, 0.04);
 }
 
 /*
