@@ -60,7 +60,9 @@ for (let y = 0; y < height; y += 300) {
   await page.evaluate((top) => window.scrollTo(0, top), y);
   await page.waitForTimeout(80);
 }
-await page.waitForLoadState("networkidle");
+// a faixa de convênios carrega logos lazy enquanto rola, então a rede pode
+// não ficar ociosa: espera no máximo 10s e segue
+await page.waitForLoadState("networkidle", { timeout: 10000 }).catch(() => {});
 await page.waitForTimeout(500);
 // recursos de outra origem (o iframe do mapa) vêm com transferSize 0 e ficam de fora
 const byType = await page.evaluate(() => {

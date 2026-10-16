@@ -3,22 +3,26 @@ import { Baloo_2, Nunito, Caveat } from "next/font/google";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "@/app/globals.css";
 
+// Só os pesos que aparecem na página (levantados no CSS computado do build).
 const baloo2 = Baloo_2({
   variable: "--font-baloo",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["700", "800"],
 });
 
 const nunito = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+  weight: ["400", "700", "800"],
 });
 
+// Caveat só aparece em detalhes (kickers e legenda da foto): sem preload,
+// para não disputar banda com a Nunito do parágrafo do hero, que é o LCP.
 const caveat = Caveat({
   variable: "--font-caveat",
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: ["700"],
+  preload: false,
 });
 
 const TITLE = `${SITE_NAME} | Clínica multidisciplinar infantil`;
