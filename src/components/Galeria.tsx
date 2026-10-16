@@ -32,7 +32,7 @@ export default function Galeria() {
       aria-labelledby="casinha-titulo"
       className="relative text-center bg-cream bg-grid overflow-hidden px-[6vw] py-24"
     >
-      <p className="font-hand text-[32px] text-terracotta font-bold mb-1">
+      <p className="font-hand text-[32px] text-terracotta-deep font-bold mb-1">
         bem-vindo à nossa casinha
       </p>
       <h2

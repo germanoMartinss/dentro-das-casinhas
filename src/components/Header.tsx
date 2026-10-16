@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { NAV_LINKS } from "@/data/navegacao";
-import { GOOGLE_FORM_URL, logoWidthFor } from "@/lib/site";
+import CtaLink from "@/components/CtaLink";
+import { logoWidthFor } from "@/lib/site";
 
 const MOBILE_MENU_ID = "menu-mobile";
 
@@ -53,19 +54,12 @@ export default function Header() {
           <a
             key={link.href}
             href={link.href}
-            className="text-ink font-bold text-base hover:text-terracotta transition-colors"
+            className="text-ink font-bold text-base hover:text-terracotta-deep transition-colors"
           >
             {link.label}
           </a>
         ))}
-        <a
-          href={GOOGLE_FORM_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-terracotta text-white px-6 py-3 rounded-full font-extrabold text-base hover:bg-terracotta-hover transition-colors"
-        >
-          Agende uma visita
-        </a>
+        <CtaLink className="px-6 py-3 text-base" />
       </nav>
 
       <button
@@ -111,15 +105,7 @@ export default function Header() {
             {link.label}
           </a>
         ))}
-        <a
-          href={GOOGLE_FORM_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => setOpen(false)}
-          className="bg-terracotta text-white px-5 py-3 rounded-full font-extrabold text-[15px] text-center mt-2"
-        >
-          Agende uma visita
-        </a>
+        <CtaLink onClick={() => setOpen(false)} className="px-5 py-3 text-[15px] text-center mt-2" />
       </nav>
     </header>
   );

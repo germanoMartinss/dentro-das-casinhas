@@ -5,18 +5,13 @@ export default function Sobre() {
       aria-labelledby="sobre-titulo"
       className="relative text-center overflow-hidden px-[6vw] py-21 bg-sand"
     >
-      {/* Um único título em duas linhas: a primeira só com contorno */}
+      {/* Um único título em duas linhas: tinta e dourado escuro (AA) */}
       <h2
         id="sobre-titulo"
-        className="font-heading font-extrabold text-[clamp(30px,4.5vw,46px)] tracking-wide mb-9"
+        className="font-heading font-extrabold text-[clamp(30px,4.5vw,46px)] leading-[1.15] tracking-wide mb-9"
       >
-        <span
-          className="block mb-2 text-transparent"
-          style={{ WebkitTextStroke: "2px var(--color-gold)" }}
-        >
-          A CULTURA
-        </span>{" "}
-        <span className="block text-gold">DA CASINHA</span>
+        <span className="block text-ink">A CULTURA</span>{" "}
+        <span className="block text-gold-deep">DA CASINHA</span>
       </h2>
       <p className="max-w-[680px] mx-auto mb-6 text-[19px] leading-[1.75] text-ink-soft">
         Nossa missão é{" "}

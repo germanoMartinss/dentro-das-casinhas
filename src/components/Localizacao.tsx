@@ -1,13 +1,14 @@
-import { ADDRESS_LINES, GOOGLE_FORM_URL, MAP_EMBED_URL, PHONE } from "@/lib/site";
+import CtaLink from "@/components/CtaLink";
+import { ADDRESS_LINES, MAP_EMBED_URL, PHONE } from "@/lib/site";
 
 export default function Localizacao() {
   return (
     <section
       id="localizacao"
       aria-labelledby="localizacao-titulo"
-      className="text-center bg-slate px-[6vw] py-21 focus-ring-light"
+      className="text-center bg-slate-deep px-[6vw] py-21 focus-ring-light"
     >
-      <p className="font-hand text-[34px] text-ink font-bold mb-1">
+      <p className="font-hand text-[34px] text-mustard font-bold mb-1">
         venha nos conhecer
       </p>
       <h2
@@ -54,7 +55,7 @@ export default function Localizacao() {
               <svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
                   d="M4 4c0 9 7 16 16 16v-3.5l-4.5-1.5-2 2c-2.5-1.2-4.5-3.2-5.7-5.7l2-2L8.3 4H4z"
-                  fill="#fff"
+                  className="fill-ink"
                 />
               </svg>
             </div>
@@ -65,14 +66,7 @@ export default function Localizacao() {
               </p>
             </div>
           </div>
-          <a
-            href={GOOGLE_FORM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-terracotta text-white font-extrabold text-base px-[30px] py-3.5 rounded-full shadow-cta hover:bg-terracotta-hover transition-colors"
-          >
-            Agende uma visita
-          </a>
+          <CtaLink className="text-base px-[30px] py-3.5 shadow-cta" />
         </div>
       </div>
     </section>

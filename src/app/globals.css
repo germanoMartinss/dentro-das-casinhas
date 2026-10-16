@@ -2,7 +2,7 @@
 
 /*
  * Tokens de design. Cada cor vira utilitário do Tailwind (bg-*, text-*,
- * border-*, fill-*). Os valores são exatamente os usados no layout original.
+ * border-*, fill-*). Combinações de texto e fundo passam contraste WCAG AA.
  */
 @theme {
   /* Paleta da marca (extraída dos materiais da Dentro Das Casinhas) */
@@ -11,28 +11,31 @@
   --color-sage: #a9c6b5;
   --color-cream: #f4ecdc;
 
-  /* Terracota: a cor da marca, um tom mais fechado usado como fundo das
-     faixas (Hero e Convênios) e o tom de hover dos botões */
+  /*
+   * Terracota. A cor viva da marca (terracotta) fica para destaques gráficos
+   * (toldo, ícones, fitas). Botões e textos usam tons mais fechados que
+   * passam contraste AA: terracotta-strong (#b8582a, 4,7:1 com branco) e
+   * terracotta-deep (#9a4520, hover dos botões e texto de destaque).
+   */
   --color-terracotta: #d9713c;
   --color-terracotta-band: #c9683a;
-  --color-terracotta-hover: #b8582a;
+  --color-terracotta-strong: #b8582a;
+  --color-terracotta-deep: #9a4520;
 
-  /* Texto, do mais escuro ao mais claro */
+  /* Texto, do mais escuro ao mais claro (todos AA sobre creme, areia e branco) */
   --color-ink: #3d3a34;
   --color-ink-soft: #4a473f;
   --color-ink-muted: #55524b;
-  --color-ink-subtle: #6a6659;
-  --color-ink-faint: #a9a493;
+  --color-ink-subtle: #5e5a4e;
 
   /* Fundos de seção */
   --color-sand: #ede0c8;
   --color-sand-deep: #e7d9bc;
-  --color-gold: #c9a85d;
+  --color-gold-deep: #7a5c17;
 
-  /* Azul-acinzentado escuro do rodapé e seus textos */
+  /* Azul-acinzentado escuro (Localização e rodapé) e o texto claro sobre ele */
   --color-slate-deep: #5b6478;
-  --color-slate-pale: #c7ccd8;
-  --color-slate-soft: #a5acbb;
+  --color-slate-night: #4a5266;
   --color-linen: #f0ede6;
 
   /* Sombras sólidas deslocadas */

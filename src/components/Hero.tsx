@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Bunting from "@/components/Bunting";
-import { GOOGLE_FORM_URL, logoWidthFor } from "@/lib/site";
+import CtaLink from "@/components/CtaLink";
+import { logoWidthFor } from "@/lib/site";
 
 export default function Hero() {
   return (
@@ -31,7 +32,7 @@ export default function Hero() {
             className="font-heading font-extrabold text-[clamp(32px,5vw,52px)] leading-[1.15] mb-[18px] text-ink"
           >
             Cuidado que constrói{" "}
-            <span className="text-terracotta">autonomia</span>, dentro de
+            <span className="text-terracotta-deep">autonomia</span>, dentro de
             casa e além dela.
           </h1>
           <p className="text-[19px] leading-relaxed text-ink-muted max-w-[560px] mx-auto mb-8">
@@ -40,14 +41,7 @@ export default function Hero() {
             terapias baseadas em evidências científicas — feitas com ética,
             empatia e acolhimento.
           </p>
-          <a
-            href={GOOGLE_FORM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-terracotta text-white font-extrabold text-[17px] px-9 py-4 rounded-full shadow-cta hover:bg-terracotta-hover transition-colors"
-          >
-            Agende uma visita
-          </a>
+          <CtaLink className="text-[17px] px-9 py-4 shadow-cta" />
         </div>
       </div>
     </section>

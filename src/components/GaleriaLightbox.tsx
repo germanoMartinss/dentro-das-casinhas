@@ -20,7 +20,7 @@ type Props = {
 };
 
 const NAV_BUTTON =
-  "absolute top-1/2 -translate-y-1/2 text-white text-5xl leading-none font-bold px-2 pb-1 hover:text-terracotta transition-colors";
+  "absolute top-1/2 -translate-y-1/2 text-white text-5xl leading-none font-bold px-2 pb-1 hover:text-mustard transition-colors";
 
 /**
  * Grade da galeria + lightbox. As miniaturas chegam prontas do servidor e o
@@ -122,7 +122,7 @@ export default function GaleriaLightbox({ photos, className, children }: Props) 
               close();
             }}
             aria-label="Fechar"
-            className="absolute top-6 right-6 text-white text-4xl leading-none font-bold hover:text-terracotta transition-colors"
+            className="absolute top-6 right-6 text-white text-4xl leading-none font-bold hover:text-mustard transition-colors"
           >
             &times;
           </button>

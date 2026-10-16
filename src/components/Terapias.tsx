@@ -7,7 +7,7 @@ const ICONS: Record<TherapyIcon, ReactNode> = {
     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
         d="M9 3h4a1 1 0 0 1 1 1v2a2 2 0 1 0 0 4v2a1 1 0 0 1-1 1h-2a2 2 0 1 1-4 0H5a1 1 0 0 1-1-1v-4a2 2 0 1 0 0-4V3a1 1 0 0 1 1-1h4v1z"
-        stroke="#fff"
+        stroke="currentColor"
         strokeWidth="1.6"
         strokeLinejoin="round"
       />
@@ -17,7 +17,7 @@ const ICONS: Record<TherapyIcon, ReactNode> = {
     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
         d="M4 5h16v11H9l-4 4v-4H4V5z"
-        stroke="#fff"
+        stroke="currentColor"
         strokeWidth="1.6"
         strokeLinejoin="round"
       />
@@ -27,7 +27,7 @@ const ICONS: Record<TherapyIcon, ReactNode> = {
     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
         d="M9 12V4.5a1.5 1.5 0 0 1 3 0V11m3 1V6.5a1.5 1.5 0 0 1 3 0V13m-9-1v9m9-8v3c0 3-2 6-6 6h-1c-3 0-5-1.5-6-4l-2-4.5c-.5-1 .3-2 1.3-1.7L7 12"
-        stroke="#fff"
+        stroke="currentColor"
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -38,7 +38,7 @@ const ICONS: Record<TherapyIcon, ReactNode> = {
     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
         d="M12 20s-7-4.4-9.3-9C1.2 8 2.5 5 6 5c2 0 3.5 1.2 4.3 2.6C11 6.2 12.5 5 14.5 5c3.5 0 4.8 3 3.3 6-2.3 4.6-9.3 9-9.3 9z"
-        stroke="#fff"
+        stroke="currentColor"
         strokeWidth="1.6"
         strokeLinejoin="round"
       />
@@ -46,15 +46,15 @@ const ICONS: Record<TherapyIcon, ReactNode> = {
   ),
   footprints: (
     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <ellipse cx="8" cy="8" rx="3" ry="4" stroke="#fff" strokeWidth="1.6" />
-      <ellipse cx="16" cy="15" rx="3" ry="4" stroke="#fff" strokeWidth="1.6" />
+      <ellipse cx="8" cy="8" rx="3" ry="4" stroke="currentColor" strokeWidth="1.6" />
+      <ellipse cx="16" cy="15" rx="3" ry="4" stroke="currentColor" strokeWidth="1.6" />
     </svg>
   ),
   book: (
     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
         d="M4 5c2-1 5-1 8 0v14c-3-1-6-1-8 0V5zm16 0c-2-1-5-1-8 0v14c3-1 6-1 8 0V5z"
-        stroke="#fff"
+        stroke="currentColor"
         strokeWidth="1.6"
         strokeLinejoin="round"
       />
@@ -62,17 +62,19 @@ const ICONS: Record<TherapyIcon, ReactNode> = {
   ),
 };
 
-const ICON_BG: Record<BrandColor, string> = {
-  slate: "bg-slate",
-  mustard: "bg-mustard",
-  sage: "bg-sage",
-  terracotta: "bg-terracotta",
+// Ícone escuro sobre as cores claras e branco só sobre o terracota, para o
+// desenho manter contraste de 3:1 com o fundo (WCAG 1.4.11).
+const ICON_STYLE: Record<BrandColor, string> = {
+  slate: "bg-slate text-ink",
+  mustard: "bg-mustard text-ink",
+  sage: "bg-sage text-ink",
+  terracotta: "bg-terracotta text-white",
 };
 
 export default function Terapias() {
   return (
     <section id="terapias" aria-labelledby="terapias-titulo" className="text-center bg-sand-deep px-[6vw] py-21">
-      <p className="font-hand text-[32px] text-terracotta font-bold mb-1">
+      <p className="font-hand text-[32px] text-terracotta-deep font-bold mb-1">
         como cuidamos
       </p>
       <h2
@@ -89,7 +91,7 @@ export default function Terapias() {
             className="bg-white rounded-3xl p-8 px-6 text-left shadow-card"
           >
             <div
-              className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-[18px] ${ICON_BG[therapy.color]}`}
+              className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-[18px] ${ICON_STYLE[therapy.color]}`}
             >
               {ICONS[therapy.icon]}
             </div>

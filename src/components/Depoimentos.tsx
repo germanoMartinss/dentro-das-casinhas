@@ -22,7 +22,7 @@ const TESTIMONIALS = [
 export default function Depoimentos() {
   return (
     <section id="depoimentos" aria-labelledby="depoimentos-titulo" className="text-center bg-cream px-[6vw] py-21">
-      <p className="font-hand text-[32px] text-terracotta font-bold mb-1">
+      <p className="font-hand text-[32px] text-terracotta-deep font-bold mb-1">
         quem já passou pela porta
       </p>
       <h2
@@ -48,11 +48,11 @@ export default function Depoimentos() {
               &ldquo;{t.quote}&rdquo;
             </p>
             <p className="font-extrabold text-sm text-ink">{t.name}</p>
-            <p className="text-[13px] text-slate mt-0.5">{t.role}</p>
+            <p className="text-[13px] text-ink-subtle mt-0.5">{t.role}</p>
           </div>
         ))}
       </div>
-      <p className="mt-7 text-[12.5px] text-ink-faint italic">
+      <p className="mt-7 text-[12.5px] text-ink-subtle italic">
         Depoimentos ilustrativos — substituir por relatos reais de famílias
         atendidas.
       </p>

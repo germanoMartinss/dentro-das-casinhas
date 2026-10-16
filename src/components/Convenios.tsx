@@ -11,12 +11,12 @@ export default function Convenios() {
     <section
       id="convenios"
       aria-labelledby="convenios-titulo"
-      className="relative text-center bg-terracotta-band bg-grid bg-grid-light pb-21"
+      className="relative text-center bg-terracotta-strong bg-grid bg-grid-light pb-21"
     >
       <Bunting />
 
       <div className="px-[6vw] pt-10">
-        <p className="text-cream text-xl font-bold mb-1">A Casinha atende os</p>
+        <p className="text-white text-xl font-bold mb-1">A Casinha atende os</p>
         <h2
           id="convenios-titulo"
           className="font-heading font-extrabold text-[clamp(28px,4vw,40px)] text-white mb-3 tracking-wide"

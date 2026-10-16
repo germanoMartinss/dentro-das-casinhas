@@ -34,7 +34,7 @@ const SOCIAL_ICONS: Record<SocialNetwork, ReactNode> = {
 
 export default function Footer() {
   return (
-    <footer id="contato" className="bg-slate-deep text-cream px-[6vw] pt-14 pb-7 focus-ring-light">
+    <footer id="contato" className="bg-slate-night text-cream px-[6vw] pt-14 pb-7 focus-ring-light">
       <div className="flex flex-wrap gap-10 max-w-[1080px] mx-auto mb-9 justify-between">
         <div className="max-w-[320px]">
           <Image
@@ -44,7 +44,7 @@ export default function Footer() {
             height={44}
             className="h-11 w-auto mb-3.5"
           />
-          <p className="text-sm leading-relaxed text-slate-pale">
+          <p className="text-sm leading-relaxed text-cream">
             Clínica multidisciplinar especializada em intervenção para
             crianças neurodivergentes.
           </p>
@@ -52,10 +52,10 @@ export default function Footer() {
 
         <div>
           <h2 className="font-extrabold text-sm mb-3.5 text-white">Contato</h2>
-          <p className="text-sm mb-2 text-slate-pale">
+          <p className="text-sm mb-2 text-cream">
             <a href={`tel:${PHONE.e164}`}>{PHONE.display}</a>
           </p>
-          <p className="text-sm text-slate-pale leading-normal">
+          <p className="text-sm text-cream leading-normal">
             {ADDRESS_LINES[0]}
             <br />
             {ADDRESS_LINES[1]}
@@ -83,7 +83,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-cream/[0.15] max-w-[1080px] mx-auto pt-5 text-center">
-        <p className="text-[13px] text-slate-soft">
+        <p className="text-[13px] text-cream">
           © {new Date().getFullYear()} {SITE_NAME}. Todos os direitos reservados.
         </p>
       </div>
