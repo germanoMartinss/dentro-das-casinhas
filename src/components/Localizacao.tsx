@@ -18,7 +18,7 @@ export default function Localizacao() {
       </h2>
 
       <div className="flex flex-wrap gap-10 max-w-[980px] mx-auto items-center justify-center">
-        <div className="flex-1 min-w-[380px] max-w-[460px] aspect-[4/3] rounded-3xl overflow-hidden shadow-map">
+        <div className="flex-1 min-w-[min(380px,100%)] max-w-[460px] aspect-[4/3] rounded-3xl overflow-hidden shadow-map">
           <iframe
             title="Localização Dentro Das Casinhas no mapa"
             src={MAP_EMBED_URL}
@@ -28,7 +28,7 @@ export default function Localizacao() {
           />
         </div>
 
-        <div className="flex-1 min-w-[320px] max-w-[400px] text-left">
+        <div className="flex-1 min-w-[min(320px,100%)] max-w-[400px] text-left">
           <div className="flex gap-3.5 mb-[22px]">
             <div className="shrink-0 w-[50px] h-[50px] rounded-2xl bg-terracotta flex items-center justify-center">
               <svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true">
