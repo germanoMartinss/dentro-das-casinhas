@@ -37,7 +37,7 @@ export const PHONE = {
  * for false, o botão flutuante e os links de WhatsApp não aparecem e o
  * telefone fica só com o link tel:.
  */
-export const WHATSAPP_CONFIRMADO: boolean = false;
+export const WHATSAPP_CONFIRMADO: boolean = true;
 
 export const WHATSAPP_MESSAGE = "Olá! Gostaria de saber mais sobre a Dentro Das Casinhas.";
 export const WHATSAPP_URL = `https://wa.me/${PHONE.e164.replace(/\D/g, "")}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;

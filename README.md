@@ -202,7 +202,7 @@ O FCP subiu ~300 ms nesse ajuste.
 ## Pendências que dependem da clínica
 
 1. **Link de agendamento.** `GOOGLE_FORM_URL` em `src/lib/site.ts` ainda é `"#"`; todos os botões "Agende uma visita" usam esse valor.
-2. **WhatsApp.** O botão e os links estão prontos, mas desligados (`WHATSAPP_CONFIRMADO = false` em `src/lib/site.ts`). Quando a clínica confirmar que (13) 98214-6166 é WhatsApp, mude para `true`.
+2. ~~**WhatsApp.**~~ Confirmado pela clínica: `WHATSAPP_CONFIRMADO = true` em `src/lib/site.ts`. Para desligar, volte para `false`.
 3. **FAQ.** Respostas sobre a faixa etária atendida e sobre a primeira visita; atendimento particular e reembolso (TODOs em `src/data/faq.ts`).
 4. **Equipe.** Fotos autorizadas, nomes, especialidades e registros profissionais (`src/data/equipe.ts`).
 5. **Depoimentos.** Relatos reais, com autorização das famílias (`src/data/depoimentos.ts`).
