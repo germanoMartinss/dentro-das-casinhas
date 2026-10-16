@@ -4,7 +4,8 @@
  *   1) Lighthouse mobile com o throttling padrão ("4G lento" simulado:
  *      150ms de RTT, 1,6 Mbps, CPU 4x mais lenta); mediana de N execuções.
  *   2) Peso total transferido rolando a página inteira em 390px (todas as
- *      imagens lazy carregadas), por tipo de recurso.
+ *      imagens lazy carregadas), por tipo de recurso, e o CLS acumulado
+ *      durante a rolagem (animações e header não podem deslocar o layout).
  *
  *   npm run test:perf
  *   npm run test:perf -- --execucoes 3
@@ -47,6 +48,12 @@ for (let i = 0; i < runs; i++) {
 // 2) peso total rolando a página (transferSize = bytes trafegados, já comprimidos)
 const browser = await launchBrowser();
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+await page.addInitScript(() => {
+  window.__cls = 0;
+  new PerformanceObserver((list) => {
+    for (const entry of list.getEntries()) if (!entry.hadRecentInput) window.__cls += entry.value;
+  }).observe({ type: "layout-shift", buffered: true });
+});
 await page.goto(BASE_URL, { waitUntil: "networkidle" });
 const height = await page.evaluate(() => document.documentElement.scrollHeight);
 for (let y = 0; y < height; y += 300) {
@@ -69,6 +76,7 @@ const byType = await page.evaluate(() => {
   }
   return out;
 });
+const scrollCls = await page.evaluate(() => window.__cls);
 await browser.close();
 
 const summary = {
@@ -84,6 +92,7 @@ const summary = {
     pesoInicial_kb: kb(median(results.map((r) => r.pesoInicial))),
     elementoLcp: results[0].elementoLcp,
   },
+  clsRolandoAPagina390: Number(scrollCls.toFixed(4)),
   paginaInteira390_kb: {
     total: kb(Object.values(byType).reduce((sum, v) => sum + v, 0)),
     ...Object.fromEntries(Object.entries(byType).map(([key, value]) => [key, kb(value)])),

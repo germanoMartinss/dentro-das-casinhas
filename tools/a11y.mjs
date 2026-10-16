@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
  * Acessibilidade: roda o axe-core na página e testa o comportamento por
- * teclado (skip link, lightbox, menu mobile) e movimento reduzido.
+ * teclado (skip link, percurso completo de Tab, lightbox, FAQ, faixa de
+ * convênios, menu mobile) e movimento reduzido.
  *
  *   npm run test:a11y
  *
  * Opções:
  *   --ignorar regra1,regra2   regras do axe que não reprovam o teste
- *                             (o script npm ignora color-contrast até a fase 2)
  *
  * Sai com código 1 se houver violação do axe não ignorada ou se alguma
  * verificação de comportamento falhar.
@@ -98,6 +98,78 @@ const browser = await launchBrowser();
   check("Esc fecha o diálogo", (await dialog.count()) === 0);
   check("foco volta à miniatura que abriu", (await focused(page)).label.startsWith("Ampliar foto"));
   check("rolagem do fundo liberada", (await page.evaluate(() => document.body.style.overflow)) === "");
+
+  // FAQ
+  const faqButton = page.locator("#duvidas button[aria-controls]").first();
+  if (await faqButton.count()) {
+    console.log("\nFAQ:");
+    const panelId = await faqButton.getAttribute("aria-controls");
+    check("pergunta começa fechada", (await faqButton.getAttribute("aria-expanded")) === "false");
+    await faqButton.focus();
+    await page.keyboard.press("Enter");
+    check(
+      "Enter abre a resposta (aria-expanded e painel visível)",
+      (await faqButton.getAttribute("aria-expanded")) === "true" && (await page.locator(`[id="${panelId}"]`).isVisible()),
+    );
+    await page.keyboard.press("Space");
+    check("Espaço fecha a resposta", (await faqButton.getAttribute("aria-expanded")) === "false");
+  }
+
+  // faixa de convênios
+  const marquee = page.locator(".marquee");
+  if (await marquee.count()) {
+    console.log("\nFaixa de convênios:");
+    const state = () =>
+      page.evaluate(() => getComputedStyle(document.querySelector(".marquee-track")).animationPlayState);
+    check("rola sozinha", (await state()) === "running");
+    await page.locator(".marquee-toggle").focus();
+    check("pausa com o foco", (await state()) === "paused");
+    await page.keyboard.press("Enter");
+    await page.locator("h1").focus();
+    check(
+      "botão mantém pausada sem foco (aria-pressed=true)",
+      (await state()) === "paused" && (await page.locator(".marquee-toggle").getAttribute("aria-pressed")) === "true",
+    );
+    check(
+      "cópia do loop oculta para leitores de tela",
+      (await page.locator(".marquee-copy[aria-hidden=true]").count()) === 1,
+    );
+  }
+
+  await page.close();
+}
+
+// --- percurso completo de Tab: todo foco cai em algo visível, com anel de foco e fora de aria-hidden
+{
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await page.goto(BASE_URL, { waitUntil: "networkidle" });
+  // rolagem instantânea para medir a posição logo após cada Tab
+  await page.addStyleTag({ content: "html{scroll-behavior:auto!important}" });
+  console.log("\nPercurso de Tab:");
+  const stops = [];
+  for (let i = 0; i < 200; i++) {
+    await page.keyboard.press("Tab");
+    await page.waitForTimeout(50); // dá tempo aos ajustes de foco da página (ex.: iframe do mapa)
+    const stop = await page.evaluate(() => {
+      const el = document.activeElement;
+      if (!el || el === document.body) return null; // chegou ao fim do documento
+      const r = el.getBoundingClientRect();
+      return {
+        name: `${el.tagName.toLowerCase()} "${(el.getAttribute("aria-label") ?? el.getAttribute("title") ?? el.textContent).trim().replace(/\s+/g, " ").slice(0, 30)}"`,
+        visible: r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < innerHeight,
+        hidden: !!el.closest("[aria-hidden=true]"),
+        ring: el.tagName === "IFRAME" || (el.matches(":focus-visible") && getComputedStyle(el).outlineStyle !== "none"),
+      };
+    });
+    if (!stop) break;
+    stops.push(stop);
+  }
+  const badStops = stops.filter((s) => !s.visible || s.hidden || !s.ring);
+  check(
+    `${stops.length} paradas de Tab, todas visíveis, com anel de foco e fora de aria-hidden`,
+    badStops.length === 0,
+    badStops.map((s) => `${s.name}${s.visible ? "" : " invisível"}${s.hidden ? " aria-hidden" : ""}${s.ring ? "" : " sem anel"}`).join("; "),
+  );
   await page.close();
 }
 
@@ -135,6 +207,15 @@ const browser = await launchBrowser();
     }));
     if (reducedMotion === "reduce") {
       check("reduce: sem rolagem suave e sem transição nas polaroides", r.scroll === "auto" && r.transition === "none", `${r.scroll}, ${r.transition}`);
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await page.waitForTimeout(300);
+      const anim = await page.evaluate(() => ({
+        hidden: document.querySelectorAll(".reveal-pending").length,
+        marquee: document.querySelector(".marquee-track") ? getComputedStyle(document.querySelector(".marquee-track")).animationName : "none",
+        bunting: getComputedStyle(document.querySelector(".bunting-flag")).animationName,
+      }));
+      check("reduce: nada escondido esperando animação", anim.hidden === 0, `${anim.hidden}`);
+      check("reduce: faixa de convênios e toldo parados", anim.marquee === "none" && anim.bunting === "none", `${anim.marquee}, ${anim.bunting}`);
     } else {
       check("sem preferência: rolagem suave ativa", r.scroll === "smooth", r.scroll);
     }

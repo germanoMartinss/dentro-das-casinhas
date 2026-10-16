@@ -49,8 +49,8 @@ npm run build && npm start      # em outro terminal
 |---|---|
 | `npm run test:visual:referencia` | Captura a página (390px e 1440px, modo claro e escuro) e salva como referência. Rode **antes** de mudar algo |
 | `npm run test:visual` | Captura de novo e compara pixel a pixel com a referência; também compara o HTML. Mostra as faixas da página que mudaram e falha se houver diferença |
-| `npm run test:a11y` | axe-core + testes de teclado (skip link, lightbox, menu mobile) e de movimento reduzido. Ignora `color-contrast` até a fase 2 |
-| `npm run test:perf` | Lighthouse mobile em 4G lento (mediana de 5 execuções) e peso total transferido rolando a página |
+| `npm run test:a11y` | axe-core + testes de teclado (skip link, percurso completo de Tab, lightbox, FAQ, faixa de convênios, menu mobile) e de movimento reduzido |
+| `npm run test:perf` | Lighthouse mobile em 4G lento (mediana de 5 execuções), peso total transferido e CLS acumulado rolando a página |
 | `npm run test:larguras` | Varre de 320px a 1440px procurando rolagem horizontal e aponta o elemento culpado |
 
 Opções úteis:
@@ -72,10 +72,10 @@ src/
     globals.css          tokens de design (cores, sombras, fontes) e estilos base
     sitemap.ts, robots.ts
     opengraph-image.jpg, twitter-image.jpg, icon.png, apple-icon.png, favicon.ico
-  components/            uma seção por arquivo; só Header e GaleriaLightbox são client
-  data/                  conteúdo editável: terapias, convênios, fotos, links do menu
+  components/            uma seção por arquivo + peças client (menu, lightbox, FAQ, contador, animações)
+  data/                  conteúdo editável: terapias, convênios, fotos, menu, passos, FAQ, equipe, depoimentos
   lib/
-    site.ts              nome, URL, telefone, endereço, redes, link do formulário
+    site.ts              nome, URL, telefone, WhatsApp, endereço, redes, link do formulário, anos de cuidado
     json-ld.ts           dados estruturados MedicalClinic (schema.org)
   types/                 tipos compartilhados
 tools/                   testes: visual, acessibilidade, desempenho, larguras
@@ -104,18 +104,34 @@ Use `--altura` (ou `--largura`) para definir o tamanho visual em px. Como refer�
 
 **Fotos da galeria:** coloque o JPG em `public/images/casinha/` (de preferência 1440px no lado maior) e adicione o texto alternativo em `src/data/fotos.ts`. A lista de alts define a ordem e a quantidade de fotos. O alt descreve o ambiente; se aparecer uma criança, descreva a cena sem identificá-la.
 
-**Menu:** `src/data/navegacao.ts`. O `href` precisa ser o `id` de uma seção.
+**Menu:** `src/data/navegacao.ts`. O `href` precisa ser o `id` de uma seção. Equipe, Depoimentos e Dúvidas só entram no menu quando têm dados.
+
+**Seções que dependem de dados da clínica** (cada uma só aparece quando tem conteúdo):
+
+| Arquivo | O que preencher |
+|---|---|
+| `src/data/faq.ts` | Respostas com `answer: null` ficam fora do site; o campo `todo` diz o que falta |
+| `src/data/equipe.ts` | `{ name, specialty, registration, photo }` (foto quadrada em `public/images/equipe/`, com autorização) |
+| `src/data/depoimentos.ts` | `{ quote, author, relation }`, só depoimentos reais e autorizados |
+| `src/data/como-funciona.ts` | Textos dos 4 passos (revisar com a clínica) |
+| `src/lib/site.ts` | `GOOGLE_FORM_URL` (link de agendamento), `YEARS_OF_CARE` e confirmação do WhatsApp |
 
 **Imagem de compartilhamento e ícones:** depois de trocar o logo, ou para usar outra foto (`OG_PHOTO` no script), rode `npm run seo:imagens`. O script garante que o JPEG de Open Graph fique abaixo de 300 KB.
 
 ## Decisões técnicas
 
-- **Tokens de design no tema do Tailwind.** Todas as cores e sombras ficam em `@theme` (`globals.css`), com os mesmos valores do layout original. Há dois tons de terracota com papéis diferentes: `terracotta` (#D9713C, a cor da marca, em botões e destaques) e `terracotta-band` (#C9683A, fundo das faixas do Hero e Convênios). O hover dos botões usa `terracotta-hover`.
+- **Tokens de design no tema do Tailwind, com contraste AA.** Todas as cores e sombras ficam em `@theme` (`globals.css`). As cores vivas da marca (terracota #D9713C, mostarda, sálvia, ardósia) ficam para destaques gráficos (toldo, ícones, fitas). Botões usam `terracotta-strong` (#B8582A, 4,7:1 com branco) com hover em `terracotta-deep` (#9A4520), que também é a cor dos textos de destaque. Ícones sobre cores claras são escuros.
 - **Estilos globais em `@layer base`.** Regras fora de uma layer vencem as utilities do Tailwind, que ficam em `@layer utilities`. Era isso que anulava a Nunito no texto.
-- **Server Components por padrão.** Só o menu mobile (`Header`) e o lightbox (`GaleriaLightbox`) rodam no cliente. As miniaturas da galeria são renderizadas no servidor, e o lightbox captura o clique por delegação de eventos.
+- **Server Components por padrão.** Rodam no cliente só: o cabeçalho (menu mobile e encolhimento), o lightbox, a sanfona do FAQ, o contador da faixa de confiança, o botão de pausa da faixa de convênios e o `RevealOnScroll`. As miniaturas da galeria são renderizadas no servidor, e o lightbox captura o clique por delegação de eventos.
 - **Bandeirinhas em SVG.** Um `<pattern>` substitui as 100 `div`s por faixa, com o mesmo desenho e a mesma fase (o padrão começa no centro). Só essa mudança levou a página de 461 para 275 elementos.
 - **Logos de convênio padronizados no arquivo**, não no CSS. Cada marca tem um tamanho visual próprio, que fica definido no PNG gerado pelo script em vez de num `transform: scale()` por item.
-- **Logo do hero sem `preload`.** O elemento de LCP é o parágrafo do hero (texto). Pré-carregar o logo disputou banda com as fontes e piorou o LCP em ~150ms (Lighthouse, 4G lento), então os dois logos do topo usam `loading="eager"`. O `priority` foi depreciado no Next 16.
+- **Foto do hero com `preload` e `sizes`.** O `priority` foi depreciado no Next 16. Medido: com ou sem o `preload` da foto o LCP é o mesmo (o elemento de LCP é o parágrafo do hero, que depende da fonte).
+- **Animações só com CSS e um IntersectionObserver**, sem bibliotecas, só com `transform`/`opacity` e dentro de `prefers-reduced-motion: no-preference`:
+  - **Entrada ao rolar (`RevealOnScroll`):** o HTML chega com tudo visível. Depois da hidratação, só o que ainda está abaixo da dobra é escondido, até entrar na tela. O hero nunca é escondido, e nada depende de JS para aparecer. Se o foco do teclado cair num bloco ainda escondido, ele aparece na hora.
+  - **Header:** encolhe só com `transform`, dentro de um contêiner sticky de altura fixa, então o conteúdo não se desloca (CLS 0 rolando a página).
+  - **Faixa de convênios:** pausa no hover, no foco e por um botão (WCAG 2.2.2, que também atende quem usa toque). Com "reduzir movimento", vira uma grade parada.
+  - **Contador da faixa de confiança:** o HTML já traz o número final.
+- **Conteúdo que depende da clínica nunca é inventado.** FAQ sem resposta, Equipe e Depoimentos ficam fora do site (e do menu) até haver dados.
 - **Ano do rodapé com ISR.** A página é estática e revalida a cada 24h (`revalidate = 86400`), para o ano mudar sem deploy.
 - **Acessibilidade sem mudança visual:**
   - skip link
@@ -154,16 +170,38 @@ Medição no build de produção, antes (commit `670293e`) e depois. Lighthouse 
 | Elementos no DOM | 479 | 288 |
 | Violações do axe-core | 1 regra (contraste, 20 nós) | 1 regra (contraste, 20 nós; fica para a fase 2) |
 
-## Fase 2 (pendente)
+## Fase 2 (concluída)
 
-Estes pontos ficaram de fora de propósito, porque dependem de decisões de design ou de informações da clínica:
+Visual mais profissional, mantendo a identidade (paleta, toldo, polaroids, Baloo 2, Nunito e Caveat):
 
-1. **Contraste de cores.** 20 elementos abaixo de 4.5:1 (axe-core), entre eles o botão principal (branco sobre terracota, 3.29:1), os kickers em terracota sobre creme (2.80:1) e o título "A CULTURA DA CASINHA" (1.74:1).
-2. **CTAs "Agende uma visita".** `GOOGLE_FORM_URL` em `src/lib/site.ts` ainda é `"#"`, então os 4 botões não levam a lugar nenhum.
-3. **Depoimentos.** Os 3 textos são ilustrativos e o aviso aparece no site. Faltam relatos reais, com autorização das famílias.
-4. **WhatsApp.** Não há botão nem link `wa.me`.
-5. **LGPD.**
+- **Cores:** todo texto passa AA. As 21 combinações que falhavam passam; o axe-core não aponta violações.
+- **Hero:** duas colunas, com foto em polaroid e faixa de confiança com contador.
+- **Seções novas:** Como funciona, FAQ em sanfona, Equipe e Depoimentos (só com dados reais) e CTA final.
+- **Animações:** toldo, entrada ao rolar, polaroids, faixa de convênios, header e cards.
+- **WhatsApp:** botão flutuante e links no contato.
+
+Medição no build de produção, antes (commit `250f386`) e depois da fase 2. Lighthouse mobile com 4G lento simulado, mediana de 5 execuções:
+
+| | Antes | Depois |
+|---|---|---|
+| Performance (Lighthouse) | 95 | 93 |
+| LCP | 2,93 s | 3,28 s |
+| CLS no carregamento | 0 | 0 |
+| CLS rolando a página inteira (390px) | 0 | 0 |
+| Peso total (página inteira) | 520 KB | 499 KB |
+| Violações do axe-core | 1 regra (contraste, 20 nós) | nenhuma |
+
+O LCP subiu ~350 ms, e o elemento de LCP continua sendo o parágrafo do hero (texto, depende da fonte Nunito). Com e sem o `preload` da foto o resultado é idêntico, e nenhuma animação toca o hero. A diferença vem do hero novo (HTML e CSS maiores e a foto disputando banda no primeiro carregamento). Para recuperar esse tempo, um caminho é reduzir os pesos de fonte carregados (hoje 144 KB).
+
+## Pendências que dependem da clínica
+
+1. **Link de agendamento.** `GOOGLE_FORM_URL` em `src/lib/site.ts` ainda é `"#"`; todos os botões "Agende uma visita" usam esse valor.
+2. **WhatsApp.** Confirmar que (13) 98214-6166 é WhatsApp (TODO em `src/lib/site.ts`).
+3. **FAQ.** Respostas sobre a faixa etária atendida e sobre a primeira visita; atendimento particular e reembolso (TODOs em `src/data/faq.ts`).
+4. **Equipe.** Fotos autorizadas, nomes, especialidades e registros profissionais (`src/data/equipe.ts`).
+5. **Depoimentos.** Relatos reais, com autorização das famílias (`src/data/depoimentos.ts`).
+6. **Textos de "Como funciona".** Revisar para refletirem o processo real (`src/data/como-funciona.ts`).
+7. **LGPD.**
    - Falta política de privacidade.
    - O mapa do Google carrega sem consentimento e pode gravar cookies de terceiros.
    - O formulário de agendamento vai coletar dados de crianças e de saúde, que são dados sensíveis.
-6. **Hero.** Revisão do layout (a faixa com o logo repete o logo do cabeçalho).

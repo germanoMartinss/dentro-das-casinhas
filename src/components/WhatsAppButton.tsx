@@ -7,6 +7,7 @@ import { WHATSAPP_URL } from "@/lib/site";
  */
 export default function WhatsAppButton() {
   return (
+    <aside aria-label="Contato rápido">
     <a
       href={WHATSAPP_URL}
       target="_blank"
@@ -16,5 +17,6 @@ export default function WhatsAppButton() {
     >
       <WhatsAppIcon size={30} />
     </a>
+    </aside>
   );
 }

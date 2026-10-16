@@ -11,7 +11,7 @@
     "seo:imagens": "node scripts/gerar-imagens-seo.mjs",
     "test:visual": "node tools/visual.mjs",
     "test:visual:referencia": "node tools/visual.mjs --atualizar",
-    "test:a11y": "node tools/a11y.mjs --ignorar color-contrast",
+    "test:a11y": "node tools/a11y.mjs",
     "test:perf": "node tools/perf.mjs",
     "test:larguras": "node tools/larguras.mjs"
   },

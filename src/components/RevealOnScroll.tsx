@@ -36,7 +36,34 @@ export default function RevealOnScroll() {
       observer.observe(el);
     }
 
-    return () => observer.disconnect();
+    // Navegação por teclado: o foco nunca pode cair num elemento ainda
+    // invisível. Ao focar algo dentro de um bloco pendente, ele aparece na
+    // hora; e se o navegador não rolar até o foco (acontece com o iframe do
+    // mapa), rolamos nós.
+    function revealFocused(target: Element) {
+      const pending = target.closest(".reveal-pending");
+      if (pending) {
+        pending.classList.remove("reveal-pending");
+        observer.unobserve(pending);
+      }
+      const r = target.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) target.scrollIntoView({ block: "center" });
+    }
+    const onFocusIn = (e: FocusEvent) => revealFocused(e.target as Element);
+    // Foco entrando num iframe de outra origem não dispara focusin aqui, só
+    // blur na janela; o iframe vira o activeElement logo depois.
+    const onWindowBlur = () =>
+      setTimeout(() => {
+        if (document.activeElement?.tagName === "IFRAME") revealFocused(document.activeElement);
+      });
+    document.addEventListener("focusin", onFocusIn);
+    window.addEventListener("blur", onWindowBlur);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("focusin", onFocusIn);
+      window.removeEventListener("blur", onWindowBlur);
+    };
   }, []);
 
   return null;
