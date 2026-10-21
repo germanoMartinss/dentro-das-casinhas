@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import GaleriaLightbox from "@/components/GaleriaLightbox";
+import PreCadastroButton from "@/components/PreCadastroButton";
 import { GALLERY_PHOTOS } from "@/data/fotos";
 import type { BrandColor } from "@/types";
 
@@ -72,6 +73,21 @@ export default function Galeria() {
           </button>
         ))}
       </GaleriaLightbox>
+
+      <div
+        data-reveal
+        className="relative max-w-[560px] mx-auto mt-20 bg-white rounded-3xl px-6 py-8 sm:px-10 shadow-card-lifted"
+      >
+        <span
+          aria-hidden="true"
+          className="absolute -top-3 left-1/2 -translate-x-1/2 rotate-2 w-14 h-6 rounded-sm opacity-80 bg-sage"
+        />
+        <p className="font-heading font-extrabold text-[clamp(22px,3vw,28px)] leading-tight text-ink mb-2">
+          Bem-vindo à Casinha
+        </p>
+        <p className="text-ink-soft mb-6">Primeiro passo para o seu filho fazer parte da Casinha.</p>
+        <PreCadastroButton className="px-8 py-3.5 text-[17px] shadow-cta" />
+      </div>
     </section>
   );
 }

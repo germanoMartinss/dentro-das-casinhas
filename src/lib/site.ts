@@ -11,6 +11,24 @@ export const SITE_URL = (
 // TODO: substituir pelo link real do Google Forms quando disponível.
 export const GOOGLE_FORM_URL = "#";
 
+/**
+ * Pré-cadastro de novos aprendizes no sistema da clínica. Os endereços mudam
+ * quando o sistema tiver domínio próprio: defina as variáveis no ambiente (ex.:
+ * na Vercel) e faça um novo deploy, porque NEXT_PUBLIC_* entra no build.
+ */
+export const PRE_CADASTRO = {
+  /** Endpoint que recebe nome, telefone e token do Turnstile. */
+  apiUrl:
+    process.env.NEXT_PUBLIC_PRE_CADASTRO_API_URL ??
+    "https://api.187-127-58-73.sslip.io/api/publico/bem-vindo/dentro-das-casinhas/iniciar",
+  /** Página "Bem-vindo" do sistema: destino após o envio e alternativa se a API falhar. */
+  bemVindoUrl:
+    process.env.NEXT_PUBLIC_BEM_VINDO_URL ??
+    "https://ababase.vercel.app/bem-vindo/dentro-das-casinhas",
+  /** Chave pública (site key) do Cloudflare Turnstile. Sem ela o widget não aparece. */
+  turnstileSiteKey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "",
+};
+
 export const SITE_NAME = "Dentro Das Casinhas";
 
 /** Dimensões reais dos arquivos de logo da marca (logo-ink/logo-white.png). */

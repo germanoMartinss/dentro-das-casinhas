@@ -12,6 +12,7 @@ import Faq from "@/components/Faq";
 import CtaFinal from "@/components/CtaFinal";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import PreCadastro from "@/components/PreCadastro";
 import Footer from "@/components/Footer";
 import { clinicJsonLd, serializeJsonLd } from "@/lib/json-ld";
 
@@ -48,6 +49,7 @@ export default function Home() {
       </main>
       <Footer />
       <WhatsAppButton />
+      <PreCadastro />
       <RevealOnScroll />
     </>
   );

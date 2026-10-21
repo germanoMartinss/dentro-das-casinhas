@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { NAV_LINKS } from "@/data/navegacao";
 import CtaLink from "@/components/CtaLink";
+import PreCadastroButton from "@/components/PreCadastroButton";
 import { logoWidthFor } from "@/lib/site";
 
 const MOBILE_MENU_ID = "menu-mobile";
@@ -65,25 +66,31 @@ export default function Header() {
 
       <nav
         aria-label="Menu principal"
-        className={`hidden xl:flex items-center gap-6 transition-[translate] duration-300 motion-reduce:transition-none ${shift}`}
+        className={`hidden nav:flex ml-auto items-center gap-6 transition-[translate] duration-300 motion-reduce:transition-none ${shift}`}
       >
         {NAV_LINKS.map((link) => (
           <a
             key={link.href}
             href={link.href}
-            className="text-ink font-bold text-base hover:text-terracotta-deep transition-colors"
+            className="text-ink font-bold text-base whitespace-nowrap hover:text-terracotta-deep transition-colors"
           >
             {link.label}
           </a>
         ))}
-        <CtaLink className="px-6 py-3 text-base" />
+        <CtaLink className="px-6 py-3 text-base whitespace-nowrap" />
       </nav>
 
+      {/* Pré-cadastro fica fora do menu: sempre visível, inclusive no celular. */}
+      <div className={`flex items-center gap-2 sm:gap-3 nav:ml-4 transition-[translate] duration-300 motion-reduce:transition-none ${shift}`}>
+      <PreCadastroButton
+        onClick={() => setOpen(false)}
+        className="px-3.5 py-2 text-sm sm:px-5 sm:py-2.5 sm:text-base"
+      />
       <button
         ref={toggleRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className={`flex xl:hidden bg-transparent border-none cursor-pointer p-2 transition-[translate] duration-300 motion-reduce:transition-none ${shift}`}
+        className="flex nav:hidden bg-transparent border-none cursor-pointer p-2"
         aria-label={open ? "Fechar menu" : "Abrir menu"}
         aria-expanded={open}
         aria-controls={MOBILE_MENU_ID}
@@ -105,12 +112,13 @@ export default function Header() {
           </svg>
         )}
       </button>
+      </div>
 
       <nav
         id={MOBILE_MENU_ID}
         aria-label="Menu principal (celular)"
         hidden={!open}
-        className="absolute top-full left-0 right-0 xl:hidden flex flex-col gap-1 bg-cream px-[5vw] pb-5 pt-3 border-b-2 border-ink/[0.08]"
+        className="absolute top-full left-0 right-0 nav:hidden flex flex-col gap-1 bg-cream px-[5vw] pb-5 pt-3 border-b-2 border-ink/[0.08]"
       >
         {NAV_LINKS.map((link) => (
           <a

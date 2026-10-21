@@ -5,6 +5,12 @@
  * border-*, fill-*). Combinações de texto e fundo passam contraste WCAG AA.
  */
 @theme {
+  /*
+   * Largura a partir da qual o menu completo cabe no cabeçalho (links +
+   * "Agende uma visita" + "Faça o pré-cadastro"). Abaixo dela, menu sanduíche.
+   */
+  --breakpoint-nav: 1400px;
+
   /* Paleta da marca (extraída dos materiais da Dentro Das Casinhas) */
   --color-slate: #8993a6;
   --color-mustard: #e8c15f;
@@ -95,6 +101,11 @@
     html {
       scroll-behavior: smooth;
     }
+  }
+
+  /* Com um diálogo modal aberto (pré-cadastro) o fundo não rola */
+  html:has(dialog[open]) {
+    overflow: hidden;
   }
 
   section[id] {

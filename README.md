@@ -29,13 +29,26 @@ npm run build        # build de produção
 npm start            # serve o build de produção
 ```
 
-Variável de ambiente opcional:
+Variáveis de ambiente:
 
 | Variável | Uso | Padrão |
 |---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | URL pública usada em canonical, Open Graph, sitemap, robots e JSON-LD | `https://dentro-das-casinhas.vercel.app` |
+| `NEXT_PUBLIC_PRE_CADASTRO_API_URL` | Endpoint do pré-cadastro ("Bem-vindo à Casinha") no sistema da clínica | `https://api.187-127-58-73.sslip.io/api/publico/bem-vindo/dentro-das-casinhas/iniciar` |
+| `NEXT_PUBLIC_BEM_VINDO_URL` | Página "Bem-vindo" do sistema: destino depois do envio e link alternativo se a API falhar | `https://ababase.vercel.app/bem-vindo/dentro-das-casinhas` |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Chave pública do Cloudflare Turnstile. Sem ela o widget não aparece e o token vai vazio | (vazia) |
 
-Ao ligar um domínio próprio, defina `NEXT_PUBLIC_SITE_URL` na Vercel e faça um novo deploy.
+São todas lidas no build: depois de mudar qualquer uma na Vercel (por exemplo, ao ligar um domínio próprio no site ou no sistema), faça um novo deploy.
+
+### Pré-cadastro
+
+Os botões "Faça o pré-cadastro" (cabeçalho e seção "Conheça a Casinha") abrem o formulário em `src/components/PreCadastro.tsx`. O envio é um `POST` JSON direto do navegador:
+
+```json
+{ "nome": "Maria Souza", "telefone": "13982146166", "turnstileToken": "..." }
+```
+
+Na resposta, o site aceita a URL pronta (`url`, `urlRetorno` ou `redirectUrl`, no mesmo domínio de `NEXT_PUBLIC_BEM_VINDO_URL`) ou só o código (`codigo` ou `code`), que vira `?codigo=` na página "Bem-vindo". A API precisa liberar o domínio do site no CORS. Em qualquer falha, o formulário mostra o link direto da página "Bem-vindo".
 
 ## Testes (pasta `tools/`)
 
