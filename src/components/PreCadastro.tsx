@@ -41,31 +41,24 @@ function carregarTurnstile(): Promise<Turnstile> {
   return turnstilePromise;
 }
 
-/**
- * Destino depois do envio. A API pode devolver a URL pronta (url, urlRetorno,
- * redirectUrl) ou só o código (codigo, code), que vai como ?codigo= na página
- * "Bem-vindo". Só aceita endereços do mesmo domínio da página "Bem-vindo".
- */
-function urlDeRetorno(dados: unknown): string | null {
-  if (!dados || typeof dados !== "object") return null;
-  const d = dados as Record<string, unknown>;
-  const base = new URL(PRE_CADASTRO.bemVindoUrl);
-
-  const pronta = [d.url, d.urlRetorno, d.redirectUrl].find((v) => typeof v === "string");
-  if (typeof pronta === "string") {
-    try {
-      const url = new URL(pronta, base);
-      return url.origin === base.origin ? url.href : null;
-    } catch {
-      return null;
-    }
-  }
-
-  const codigo = [d.codigo, d.code].find((v) => typeof v === "string" || typeof v === "number");
-  if (codigo === undefined) return null;
-  base.searchParams.set("codigo", String(codigo));
-  return base.href;
+/** Lê um campo de texto do JSON de resposta da API (url ou message). */
+async function campoDaResposta(resposta: Response, campo: "url" | "message"): Promise<string> {
+  const dados: unknown = await resposta.json().catch(() => null);
+  const valor = dados && typeof dados === "object" ? (dados as Record<string, unknown>)[campo] : null;
+  return typeof valor === "string" ? valor.trim() : "";
 }
+
+/** URL de retorno (página "Bem-vindo" com o código); só aceita http(s). */
+function urlSegura(valor: string): string | null {
+  try {
+    const url = new URL(valor);
+    return url.protocol === "https:" || url.protocol === "http:" ? url.href : null;
+  } catch {
+    return null;
+  }
+}
+
+const MENSAGEM_FALHA = "Não conseguimos concluir o pré-cadastro agora. Tente de novo em instantes.";
 
 type Status = "preenchendo" | "enviando" | "redirecionando" | "erro";
 type Erros = { nome?: string; telefone?: string };
@@ -99,6 +92,9 @@ export default function PreCadastro() {
   const [tentouEnviar, setTentouEnviar] = useState(false);
   const [status, setStatus] = useState<Status>("preenchendo");
   const [mensagem, setMensagem] = useState("");
+  const [mostrarLink, setMostrarLink] = useState(false);
+  // Campo isca (honeypot): invisível para pessoas, só robôs o preenchem.
+  const iscaRef = useRef<HTMLInputElement>(null);
   const [token, setToken] = useState("");
   const [verificacaoFalhou, setVerificacaoFalhou] = useState(false);
 
@@ -161,50 +157,72 @@ export default function PreCadastro() {
       document.getElementById(campo)?.focus();
       return;
     }
-    if (PRE_CADASTRO.turnstileSiteKey && !token) {
-      setStatus("erro");
-      setMensagem(
-        verificacaoFalhou
-          ? "A verificação de segurança não carregou. Use o link abaixo para seguir pela página Bem-vindo."
-          : "Aguarde a verificação de segurança terminar e envie de novo.",
-      );
-      return;
-    }
+    if (aguardandoVerificacao) return;
 
     setStatus("enviando");
     setMensagem("");
+
+    // Contrato da API: { nome, telefone, turnstile, site }. Resposta 201 com { url }.
+    let resposta: Response;
     try {
-      const resposta = await fetch(PRE_CADASTRO.apiUrl, {
+      resposta = await fetch(PRE_CADASTRO.apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nome: nome.trim().replace(/\s+/g, " "),
           telefone: digitosTelefone(telefone),
-          turnstileToken: token,
+          turnstile: token,
+          site: iscaRef.current?.value ?? "",
         }),
         signal: AbortSignal.timeout(TEMPO_LIMITE_MS),
       });
-      if (!resposta.ok) throw resposta;
-      const destino = urlDeRetorno(await resposta.json().catch(() => null));
-      if (!destino) throw new Error("Resposta sem URL de retorno");
-      setStatus("redirecionando");
-      window.location.assign(destino);
-    } catch (falha) {
-      if (widgetId.current) window.turnstile?.reset(widgetId.current);
-      setToken("");
-      setStatus("erro");
-      const codigo = falha instanceof Response ? falha.status : 0;
-      setMensagem(
-        codigo === 429
-          ? "Recebemos muitas tentativas seguidas. Aguarde um minuto e tente de novo."
-          : codigo === 400 || codigo === 422
-            ? "Não conseguimos aceitar esses dados. Confira o nome e o telefone e tente de novo."
-            : "Não conseguimos concluir o pré-cadastro agora. Tente de novo em instantes.",
-      );
+    } catch {
+      // Falha de rede ou tempo esgotado.
+      mostrarErro(MENSAGEM_FALHA, true);
+      return;
+    }
+
+    if (resposta.status === 201) {
+      const destino = urlSegura(await campoDaResposta(resposta, "url"));
+      if (destino) {
+        setStatus("redirecionando");
+        window.location.assign(destino);
+        return;
+      }
+      mostrarErro(MENSAGEM_FALHA, true);
+      return;
+    }
+
+    switch (resposta.status) {
+      case 400:
+        mostrarErro("Confira os dados e tente de novo.");
+        break;
+      case 404:
+        mostrarErro("O link está incorreto. Peça o link atualizado à clínica.");
+        break;
+      case 403:
+      case 429:
+      case 503:
+        mostrarErro((await campoDaResposta(resposta, "message")) || MENSAGEM_FALHA);
+        break;
+      default:
+        mostrarErro(MENSAGEM_FALHA, true);
     }
   }
 
+  // O token do Turnstile vale para uma única verificação: depois de qualquer
+  // erro (em especial o 403), o widget é reiniciado e gera um token novo.
+  function mostrarErro(texto: string, comLink = false) {
+    if (widgetId.current) window.turnstile?.reset(widgetId.current);
+    setToken("");
+    setStatus("erro");
+    setMensagem(texto);
+    setMostrarLink(comLink);
+  }
+
   const ocupado = status === "enviando" || status === "redirecionando";
+  // O botão só libera quando o widget do Turnstile devolve o token.
+  const aguardandoVerificacao = Boolean(PRE_CADASTRO.turnstileSiteKey) && !token;
   const errosVisiveis = tentouEnviar ? erros : {};
 
   return (
@@ -296,12 +314,26 @@ export default function PreCadastro() {
             )}
           </div>
 
+          <div aria-hidden="true" className="absolute -left-[10000px] top-auto w-px h-px overflow-hidden">
+            <label htmlFor="pre-cadastro-site">Site (deixe em branco)</label>
+            <input
+              id="pre-cadastro-site"
+              ref={iscaRef}
+              name="site"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              defaultValue=""
+            />
+          </div>
+
           {PRE_CADASTRO.turnstileSiteKey && <div ref={turnstileRef} className="min-h-[65px]" />}
 
           <button
             type="submit"
-            disabled={ocupado}
-            className="bg-terracotta-strong text-white font-extrabold rounded-full px-6 py-3.5 text-[17px] shadow-cta hover:bg-terracotta-deep disabled:opacity-80 disabled:cursor-wait transition-colors"
+            disabled={ocupado || aguardandoVerificacao}
+            aria-describedby={aguardandoVerificacao ? "pre-cadastro-aguardando" : undefined}
+            className={`bg-terracotta-strong text-white font-extrabold rounded-full px-6 py-3.5 text-[17px] shadow-cta hover:bg-terracotta-deep disabled:hover:bg-terracotta-strong transition-colors ${ocupado ? "disabled:opacity-80 disabled:cursor-wait" : "disabled:opacity-60 disabled:cursor-not-allowed"}`}
           >
             {status === "enviando"
               ? "Enviando…"
@@ -309,6 +341,25 @@ export default function PreCadastro() {
                 ? "Abrindo a página Bem-vindo…"
                 : "Continuar o pré-cadastro"}
           </button>
+
+          {aguardandoVerificacao && !ocupado && (
+            <p id="pre-cadastro-aguardando" className="text-ink-soft text-sm text-center -mt-2">
+              {verificacaoFalhou ? (
+                <>
+                  A verificação de segurança não carregou. Recarregue a página ou siga pela{" "}
+                  <a
+                    href={PRE_CADASTRO.bemVindoUrl}
+                    className="font-bold text-terracotta-deep underline underline-offset-2"
+                  >
+                    página Bem-vindo da clínica
+                  </a>
+                  .
+                </>
+              ) : (
+                "Aguardando a verificação de segurança…"
+              )}
+            </p>
+          )}
 
           <div aria-live="polite" className="empty:hidden">
             {status === "enviando" && (
@@ -321,17 +372,19 @@ export default function PreCadastro() {
             )}
             {status === "erro" && (
               <div className="rounded-2xl bg-white border-2 border-terracotta/40 px-4 py-3 text-sm">
-                <p className="font-bold text-ink mb-1">{mensagem}</p>
-                <p className="text-ink-soft">
-                  Se preferir, siga direto pela{" "}
-                  <a
-                    href={PRE_CADASTRO.bemVindoUrl}
-                    className="font-bold text-terracotta-deep underline underline-offset-2"
-                  >
-                    página Bem-vindo da clínica
-                  </a>
-                  .
-                </p>
+                <p className="font-bold text-ink">{mensagem}</p>
+                {mostrarLink && (
+                  <p className="text-ink-soft mt-1">
+                    Se preferir, siga direto pela{" "}
+                    <a
+                      href={PRE_CADASTRO.bemVindoUrl}
+                      className="font-bold text-terracotta-deep underline underline-offset-2"
+                    >
+                      página Bem-vindo da clínica
+                    </a>
+                    .
+                  </p>
+                )}
               </div>
             )}
           </div>

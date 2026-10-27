@@ -45,10 +45,10 @@ São todas lidas no build: depois de mudar qualquer uma na Vercel (por exemplo, 
 Os botões "Faça o pré-cadastro" (cabeçalho e seção "Conheça a Casinha") abrem o formulário em `src/components/PreCadastro.tsx`. O envio é um `POST` JSON direto do navegador:
 
 ```json
-{ "nome": "Maria Souza", "telefone": "13982146166", "turnstileToken": "..." }
+{ "nome": "Maria Souza", "telefone": "13982146166", "turnstile": "<token>", "site": "" }
 ```
 
-Na resposta, o site aceita a URL pronta (`url`, `urlRetorno` ou `redirectUrl`, no mesmo domínio de `NEXT_PUBLIC_BEM_VINDO_URL`) ou só o código (`codigo` ou `code`), que vira `?codigo=` na página "Bem-vindo". A API precisa liberar o domínio do site no CORS. Em qualquer falha, o formulário mostra o link direto da página "Bem-vindo".
+`site` é um campo isca (honeypot), oculto para pessoas: só robôs o preenchem. Na resposta `201`, o site redireciona para o campo `url` (página "Bem-vindo" com o código). Em `403`, `429` e `503` mostra o `message` da API; em `400`, "Confira os dados e tente de novo."; em `404`, pede o link atualizado à clínica; em falha de rede ou erro inesperado, mostra o link direto da página "Bem-vindo". O botão de envio só libera quando o Turnstile devolve o token, e o widget é reiniciado depois de qualquer erro (o token vale uma vez). A API precisa liberar o domínio do site no CORS.
 
 ## Testes (pasta `tools/`)
 
